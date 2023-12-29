@@ -1,0 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300&display=swap");
+
+body {
+  background-color: rgb(44, 44, 44);
+  margin: 0;
+  font-family: "Raleway", sans-serif;
+}
+
+.game-card {
+  border-radius: 10px;
+  margin-bottom: 3rem;
+}
+
+#games-title {
+  text-align: center;
+  font-size: 3rem;
+  color: white;
+}
+
+#games-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  justify-content: space-evenly;
+  width: 90%;
+  max-width: 100%;
+}
+
+#center-games-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
