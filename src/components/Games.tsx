@@ -8,9 +8,11 @@ const Games: React.FC = () => {
   const [games, setGames] = useState<Game[]>([]);
   const getGames = async () => {
     try {
-      const querySnapshot = await getDocs(query(collection(db, "games"), orderBy("enjoyment", "desc")));
-      const data = querySnapshot.docs.map((doc) => {
-        return { id: doc.id, ...doc.data() };
+      const querySnapshot = await getDocs(
+        query(collection(db, "games"), orderBy("enjoyment", "desc"))
+      );
+      const data: Game[] = querySnapshot.docs.map((doc) => {
+        return { id: doc.id, ...doc.data() } as Game;
       });
       setGames(data);
     } catch (err) {

@@ -1,4 +1,4 @@
-import { Game } from '../types/Types'
+import Game from "../types/Types";
 
 export default function totalScore(game: Game): number {
   return (
