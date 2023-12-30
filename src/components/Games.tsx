@@ -6,6 +6,7 @@ import Game from "../types/Types";
 
 const Games: React.FC = () => {
   const [games, setGames] = useState<Game[]>([]);
+
   const getGames = async () => {
     try {
       const querySnapshot = await getDocs(

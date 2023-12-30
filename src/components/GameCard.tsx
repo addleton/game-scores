@@ -1,4 +1,4 @@
-import totalScore from "../utils/utils";
+import { totalScore } from "../utils/utils";
 import Game from "../types/Types";
 import { Card } from "antd";
 import Rating from "@mui/material/Rating";
