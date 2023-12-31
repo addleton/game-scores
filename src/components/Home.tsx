@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Game from "../types/Types";
 import GameCard from "./GameCard";
 import { getRandomGames } from "../utils/utils";
+import { Carousel } from "antd";
 
 const Home = () => {
   const [randomGames, setRandomGames] = useState<Game[]>([]);
@@ -22,12 +23,31 @@ const Home = () => {
     getRecommendedGames();
   }, []);
 
+  const contentStyle: React.CSSProperties = {
+    margin: 0,
+    padding: 10,
+    color: "#fff",
+    lineHeight: "160px",
+    textAlign: "center",
+    background: "#364d79",
+  };
+
+  console.log(randomGames);
+
   return (
     <>
       <h2>Home</h2>
-      {randomGames.map((game) => {
-        return <GameCard game={game} key={game.id} />;
-      })}
+      <Carousel>
+        {randomGames.map((randomGame) => {
+          return (
+            <div>
+              <h3 style={contentStyle}>
+                {<GameCard game={randomGame} key={randomGame.id} />}
+              </h3>
+            </div>
+          );
+        })}
+      </Carousel>
     </>
   );
 };

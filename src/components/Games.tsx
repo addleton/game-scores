@@ -25,6 +25,8 @@ const Games: React.FC = () => {
     getGames();
   }, []);
 
+  console.log(games)
+
   return (
     <>
       <h2 id="games-title">Games</h2>
