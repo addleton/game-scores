@@ -5,6 +5,7 @@ import Game from "../types/Types";
 import GameCard from "./GameCard";
 import { getRandomGames } from "../utils/utils";
 import { Carousel } from "antd";
+import MustPlayCarousel from "./MustPlayCarousel";
 
 const Home = () => {
   const [randomGames, setRandomGames] = useState<Game[]>([]);
@@ -37,17 +38,7 @@ const Home = () => {
   return (
     <>
       <h2>Home</h2>
-      <Carousel>
-        {randomGames.map((randomGame) => {
-          return (
-            <div>
-              <h3 style={contentStyle}>
-                {<GameCard game={randomGame} key={randomGame.id} />}
-              </h3>
-            </div>
-          );
-        })}
-      </Carousel>
+      <MustPlayCarousel gameSets={randomGames} />
     </>
   );
 };

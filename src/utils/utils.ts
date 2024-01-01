@@ -11,7 +11,7 @@ export function getRandomGames<T>(games: T[]): T[] {
   const randomGamesArr: T[] = [];
   const usedIndexArr: number[] = [];
 
-  while (randomGamesArr.length < 5 && usedIndexArr.length < games.length) {
+  while (randomGamesArr.length < 12 && usedIndexArr.length < games.length) {
     let randomIndex = Math.floor(Math.random() * games.length);
 
     if (!usedIndexArr.includes(randomIndex)) {
@@ -19,5 +19,10 @@ export function getRandomGames<T>(games: T[]): T[] {
       usedIndexArr.push(randomIndex);
     }
   }
-  return randomGamesArr;
+  const splitArrays = [];
+  for (let i = 0; i < randomGamesArr.length; i += 4) {
+    splitArrays.push(randomGamesArr.slice(i, i + 4));
+  }
+
+  return splitArrays;
 }
