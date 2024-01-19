@@ -1,6 +1,6 @@
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import db from "../firebaseConfig";
+import db from "../../firebaseConfig";
 import GameCard from "./GameCard";
 import Game from "../types/Types";
 
@@ -24,8 +24,6 @@ const Games: React.FC = () => {
   useEffect(() => {
     getGames();
   }, []);
-
-  console.log(games)
 
   return (
     <>
