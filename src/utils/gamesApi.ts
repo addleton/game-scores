@@ -14,6 +14,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import firebase from "firebase/compat/app";
+import axios from "axios";
 
 // export const getGames = async () => {
 //   try {
@@ -81,5 +82,17 @@ export const signIn = async (email: string, password: string) => {
   } catch (err) {
     console.error("Unable to sign in:", err);
     return false;
+  }
+};
+
+export const searchGames = async (game: string) => {
+  const apiKey = import.meta.env.VITE_REACT_APP_RAWG_KEY;
+  try {
+    const {data: {results}} = await axios.get(
+      `https://api.rawg.io/api/games?key=${apiKey}&search=${game}`
+    );
+    return results
+  } catch (err) {
+    console.error("Error retrieving game", err);
   }
 };

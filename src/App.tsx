@@ -6,6 +6,7 @@ import Games from "./components/Games";
 import { SignUp } from "./components/SignUp";
 import { Login } from "./components/Login";
 import { UserProvider } from "./context/UserContext";
+import { GameSearch } from "./components/GameSearch";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/games" element={<Games />} />
+          <Route path="/game-search" element={<GameSearch />} />
         </Routes>
       </UserProvider>
     </>

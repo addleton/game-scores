@@ -10,20 +10,19 @@ export const SignUp: React.FC = () => {
   const [password, setPassword] = useState("");
   const [usernameTaken, setUsernameTaken] = useState(null);
   const [usernameValid, setUsernameValid] = useState(true);
-  const [formValid, setFormValid] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const userDetails = {
-      firstName: firstName,
-      lastName: lastName,
-      username: username,
-      email: email,
-      password: password,
-    };
-    await createUser(userDetails);
-    if (formValid) {
+    if (firstName && lastName && usernameValid && email && password) {
+      const userDetails = {
+        firstName: firstName,
+        lastName: lastName,
+        username: username,
+        email: email,
+        password: password,
+      };
+      await createUser(userDetails);
       navigate("/login");
     }
   };
@@ -41,14 +40,6 @@ export const SignUp: React.FC = () => {
       console.error(err);
     }
   };
-
-  useEffect(() => {
-    if (usernameTaken === false && usernameValid === true) {
-      setFormValid(true);
-    } else {
-      setFormValid(false);
-    }
-  }, [usernameTaken, formValid]);
 
   return (
     <div className="hero min-h-screen bg-base-200">
