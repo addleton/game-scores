@@ -5,17 +5,20 @@ import Home from "./components/Home";
 import Games from "./components/Games";
 import { SignUp } from "./components/SignUp";
 import { Login } from "./components/Login";
+import { UserProvider } from "./context/UserContext";
 
 function App() {
   return (
     <>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/games" element={<Games />} />
-      </Routes>
+      <UserProvider>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/games" element={<Games />} />
+        </Routes>
+      </UserProvider>
     </>
   );
 }

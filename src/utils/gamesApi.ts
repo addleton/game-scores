@@ -1,28 +1,33 @@
 import {
-  addDoc,
   collection,
+  doc,
+  getDoc,
   getDocs,
-  orderBy,
   query,
+  setDoc,
   where,
 } from "firebase/firestore";
-import db from "../../firebaseConfig";
-import Game from "../types/Types";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { db, storage } from "../../firebaseConfig";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import firebase from "firebase/compat/app";
 
-export const getGames = async () => {
-  try {
-    const querySnapshot = await getDocs(
-      query(collection(db, "games"), orderBy("enjoyment", "desc"))
-    );
-    const data: Game[] = querySnapshot.docs.map((doc) => {
-      return { id: doc.id, ...doc.data() } as Game;
-    });
-    setGames(data);
-  } catch (err) {
-    console.log(err);
-  }
-};
+// export const getGames = async () => {
+//   try {
+//     const querySnapshot = await getDocs(
+//       query(collection(db, "games"), orderBy("enjoyment", "desc"))
+//     );
+//     const data: Game[] = querySnapshot.docs.map((doc) => {
+//       return { id: doc.id, ...doc.data() } as Game;
+//     });
+//     setGames(data);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
 export const checkUsernames = async (username) => {
   try {
@@ -45,18 +50,36 @@ export const checkUsernames = async (username) => {
 export const createUser = async (userDetails) => {
   try {
     const auth = getAuth();
-    await createUserWithEmailAndPassword(
+    const userCredential = await createUserWithEmailAndPassword(
       auth,
       userDetails.email,
       userDetails.password
     );
-    await addDoc(collection(db, "users"), {
+    const user = userCredential.user;
+
+    await setDoc(doc(db, "users", user.uid), {
       first_name: userDetails.firstName,
       last_name: userDetails.lastName,
       username: userDetails.username,
+      img_url: "",
     });
   } catch (err) {
-    console.error(err);
+    console.error("Error creating account:", err);
+    return false;
+  }
+};
+
+export const signIn = async (email: string, password: string) => {
+  try {
+    const auth = getAuth();
+    const {
+      user: { uid },
+    } = await signInWithEmailAndPassword(auth, email, password);
+    const userDoc = await getDoc(doc(db, "users", uid));
+    const user = userDoc.data();
+    return user;
+  } catch (err) {
+    console.error("Unable to sign in:", err);
     return false;
   }
 };

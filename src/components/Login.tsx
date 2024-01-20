@@ -1,6 +1,23 @@
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { signIn } from "../utils/gamesApi";
+import { UserContext } from "../context/UserContext";
 
 export const Login: React.FC = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    const signedInUser = await signIn(email, password);
+    setUser(signedInUser);
+    if (signedInUser !== false) {
+      navigate("/");
+    }
+  };
+
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-row-reverse">
@@ -8,7 +25,7 @@ export const Login: React.FC = () => {
         <img src="/link2.png" className="max-w-sm ml-20" />
         <div className="divider divider-horizontal"></div>
         <div className="card shrink-0 w-full max-w-md shadow-2xl bg-base-100 mr-20">
-          <form className="card-body">
+          <form className="card-body" onSubmit={handleSignIn}>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
@@ -17,6 +34,10 @@ export const Login: React.FC = () => {
                 type="email"
                 placeholder="email"
                 className="input input-bordered"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
                 required
               />
             </div>
@@ -28,6 +49,10 @@ export const Login: React.FC = () => {
                 type="password"
                 placeholder="password"
                 className="input input-bordered"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
                 required
               />
               <label className="label">

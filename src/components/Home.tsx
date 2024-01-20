@@ -1,5 +1,5 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
-import db from "../../firebaseConfig";
+import {db} from "../../firebaseConfig";
 import { useEffect, useState } from "react";
 import Game from "../types/Types";
 
