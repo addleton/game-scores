@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 const Nav = () => {
-  const { user, setUset } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   return (
     <nav>
@@ -14,13 +14,14 @@ const Nav = () => {
           </Link>
         </div>
         <div className="flex-none gap-2">
-          <div className="form-control">
-            <input
-              type="text"
-              placeholder="Search"
-              className="input input-bordered w-24 md:w-auto"
-            />
-          </div>
+          <button className="btn btn-outline">
+            <Link to="/game-search" className="link link-hover">
+              Search
+            </Link>
+          </button>
+          <Link to="/game-search" className="link link-hover">
+            Games
+          </Link>
           {user === undefined ? null : (
             <div className="dropdown dropdown-end">
               <div

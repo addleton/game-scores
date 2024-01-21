@@ -13,8 +13,8 @@ export const GameSearch: React.FC = () => {
   };
   return (
     <>
-      <form onSubmit={handleGameSearch}>
-        <div className="form-control">
+      <form onSubmit={handleGameSearch} className="container mx-auto flex items-center justify-center mt-16 mb-8">
+        <div className="form-control w-3/6">
           <input
             type="text"
             placeholder="Search"
@@ -25,14 +25,16 @@ export const GameSearch: React.FC = () => {
             className="input input-bordered w-24 md:w-auto"
           />
         </div>
-        <button>Search</button>
       </form>
-      <div className="grid grid-cols-3 gap-3">
-        {games === undefined
-          ? null
-          : games.map((game) => {
-              return <GameCard game={game} />;
-            })}
+
+      <div className="container mx-auto">
+        <div className="grid grid-cols-3 gap-10">
+          {games === undefined
+            ? null
+            : games.map((game) => {
+                return <GameCard game={game} />;
+              })}
+        </div>
       </div>
     </>
   );
