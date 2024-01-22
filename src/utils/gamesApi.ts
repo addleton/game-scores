@@ -88,11 +88,30 @@ export const signIn = async (email: string, password: string) => {
 export const searchGames = async (game: string) => {
   const apiKey = import.meta.env.VITE_REACT_APP_RAWG_KEY;
   try {
-    const {data: {results}} = await axios.get(
+    const {
+      data: { results },
+    } = await axios.get(
       `https://api.rawg.io/api/games?key=${apiKey}&search=${game}`
     );
-    return results
+    return results;
   } catch (err) {
     console.error("Error retrieving game", err);
+  }
+};
+
+export const checkFirestoreGames = async (id: string) => {
+  try {
+    const q = query(collection(db, "games"), where("id", "==", id));
+    const data = await getDocs(q);
+    const game = data.docs.map((doc) => {
+      return { id: doc.id, ...doc.data() };
+    });
+    if (game.length === 0) {
+      return false;
+    } else {
+      return true;
+    }
+  } catch (err) {
+    console.error("Error checking firestore games:", err);
   }
 };

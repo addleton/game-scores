@@ -1,8 +1,10 @@
+import { checkFirestoreGames } from "../utils/gamesApi";
 
-
-const GameCard: React.FC = ({ game, setSelectedGame }) => {
-  const handleCardClick = () => {
-    setSelectedGame(game);
+const GameCard: React.FC = ({ game, setSelectedGame, setIsGameAdded }) => {
+  const handleCardClick = async () => {
+    const gameAdded = await checkFirestoreGames(game.id);
+    setIsGameAdded(gameAdded);
+    await setSelectedGame(game);
   };
 
   return (

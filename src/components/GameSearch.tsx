@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { searchGames } from "../utils/gamesApi";
 import GameCard from "./GameCard";
+import { NotScoredPage } from "./NotScoredPage";
 
 export const GameSearch: React.FC = () => {
   const [searchInput, setSearchInput] = useState("");
   const [games, setGames] = useState(undefined);
   const [selectedGame, setSelectedGame] = useState(null);
-  const [isGameAdded, setIsGameAdded] = useState(false)
+  const [isGameAdded, setIsGameAdded] = useState(false);
 
   const handleGameSearch = async (e) => {
     e.preventDefault();
@@ -40,11 +41,20 @@ export const GameSearch: React.FC = () => {
               ? null
               : games.map((game) => {
                   return (
-                    <GameCard game={game} setSelectedGame={setSelectedGame} />
+                    <GameCard
+                      game={game}
+                      id={game.id}
+                      setSelectedGame={setSelectedGame}
+                      setIsGameAdded={setIsGameAdded}
+                    />
                   );
                 })}
           </div>
         </div>
+      ) : selectedGame && !isGameAdded ? (
+        <NotScoredPage game={selectedGame} />
+      ) : selectedGame && isGameAdded ? (
+        <p>reviews here</p>
       ) : null}
     </>
   );
