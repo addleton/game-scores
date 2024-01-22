@@ -1,6 +1,15 @@
-const GameCard: React.FC = ({ game }) => {
+
+
+const GameCard: React.FC = ({ game, setSelectedGame }) => {
+  const handleCardClick = () => {
+    setSelectedGame(game);
+  };
+
   return (
-    <div className="card w-full max-h-64 bg-base-100 shadow-xl image-full hover:scale-110 transition-transform">
+    <div
+      className="card w-full max-h-64 bg-base-100 shadow-xl image-full hover:scale-110 transition-transform"
+      onClick={handleCardClick}
+    >
       <figure>
         <img className="card-image" src={game.background_image} alt="Shoes" />
       </figure>
