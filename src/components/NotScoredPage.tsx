@@ -1,32 +1,44 @@
+import { ArtDirection } from "./StarRatings/ArtDirection";
+import { Enjoyment } from "./StarRatings/Enjoyment";
+import { Gameplay } from "./StarRatings/Gameplay";
+import { Narrative } from "./StarRatings/Narrative";
+import { Soundtrack } from "./StarRatings/Sountrack";
+
 export const NotScoredPage: React.FC = ({ game }) => {
-  console.log(game);
+
+
   return (
     <>
-    <h2>Be the first to score this game!</h2>
-    <h3>{game.name}</h3>
-    <ul>
-      Developers:
-      {game.developers.map((dev) => {
-        return <li>{dev.name}</li>
-      })}
-    </ul>
-    <ul>
-      Genre:
-      {game.genres.map((genre)=> {
-        return <li>{genre.name}</li>
-      })}
-    </ul>
-    <p>ESRB Rating: {game.esrb_rating.name}</p>
-    <ul>
-      Available on:
-      {game.platforms.map((platform)=>{
-        return <li>{platform.platform.name}</li>
-      })}
-    </ul>
-
-        <div className="container"><img className="mask mask-square " src={game.background_image} /></div>
-
+      <div className="hero min-h-screen bg-base-200">
+        <div className="hero-content flex-col lg:flex-row box-content bg-base-100 shadow-xl rounded-lg p-20">
+          <img
+            src={game.background_image}
+            className="max-w-2xl rounded-lg shadow-2xl mr-12 flex-shrink-0"
+          />
+          <div className="divider lg:divider-horizontal" />
+          <div className="container ml-12 flex flex-col self-start flex-grow">
+            <h2 className="text-4xl mb-6 font-bold">{game.name}</h2>
+            <h3 className="text-xl font-bold">Gameplay</h3>
+            <div>
+              <Gameplay />
+            </div>
+            <h3 className="text-xl font-bold">Narrative</h3>
+            <div>
+              <Narrative />
+            </div>
+            <h3 className="text-xl font-bold">Soundtrack / Score</h3>
+            <div>
+              <Soundtrack />
+            </div>
+            <h3 className="text-xl font-bold">Art Direction</h3>
+            <div>
+              <ArtDirection />
+            </div>
+            <h3 className="text-xl font-bold">Personal Enjoyment</h3>
+            <Enjoyment />
+          </div>
+        </div>
+      </div>
     </>
-
   );
 };
