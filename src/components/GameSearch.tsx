@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { searchGames } from "../utils/gamesApi";
 import GameCard from "./GameCard";
 import { NotScoredPage } from "./NotScoredPage";
+import { useNavigate } from "react-router-dom";
 
-export const GameSearch: React.FC = () => {
+export const GameSearch: React.FC = ({ setSelectedGame, selectedGame }) => {
+  const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState("");
   const [games, setGames] = useState(undefined);
-  const [selectedGame, setSelectedGame] = useState(null);
-  const [isGameAdded, setIsGameAdded] = useState(false);
+  const [isGameAdded, setIsGameAdded] = useState(null);
 
   const handleGameSearch = async (e) => {
     e.preventDefault();
@@ -15,6 +16,15 @@ export const GameSearch: React.FC = () => {
     const data = await searchGames(searchInput);
     setGames(data);
   };
+
+  useEffect(() => {
+    console.log(selectedGame)
+    if (isGameAdded === true) {
+      navigate(`/games/${selectedGame.id}`);
+    } else if (isGameAdded === false) {
+      navigate("/games/score-game");
+    }
+  }, [selectedGame]);
 
   return (
     <>
@@ -43,7 +53,7 @@ export const GameSearch: React.FC = () => {
                   return (
                     <GameCard
                       game={game}
-                      id={game.id}
+                      key={game.id}
                       setSelectedGame={setSelectedGame}
                       setIsGameAdded={setIsGameAdded}
                     />

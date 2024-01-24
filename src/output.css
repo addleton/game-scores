@@ -3158,11 +3158,6 @@ html {
   display: grid;
 }
 
-.size-6\/12 {
-  width: 50%;
-  height: 50%;
-}
-
 .max-h-64 {
   max-height: 16rem;
 }

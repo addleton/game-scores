@@ -93,6 +93,7 @@ export const searchGames = async (game: string) => {
     } = await axios.get(
       `https://api.rawg.io/api/games?key=${apiKey}&search=${game}`
     );
+    console.log(results)
     return results;
   } catch (err) {
     console.error("Error retrieving game", err);
@@ -113,5 +114,17 @@ export const checkFirestoreGames = async (id: string) => {
     }
   } catch (err) {
     console.error("Error checking firestore games:", err);
+  }
+};
+
+export const getSingleGame = async (id: number) => {
+  const apiKey = import.meta.env.VITE_REACT_APP_RAWG_KEY;
+  try {
+    const { data } = await axios.get(
+      `https://api.rawg.io/api/games/${id.toString()}?key=${apiKey}`
+    );
+    return data
+  } catch (err) {
+    console.error("Could not get single game:", err);
   }
 };
