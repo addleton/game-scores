@@ -1,8 +1,4 @@
-import { useState } from "react";
-
-export const ArtDirection: React.FC = () => {
-  const [rating, setRating] = useState(0);
-
+export const ArtDirection: React.FC = ({ artScore, setArtScore }) => {
   return (
     <div className="rating rating-md">
       <input
@@ -11,9 +7,9 @@ export const ArtDirection: React.FC = () => {
         className="rating-hidden"
         value={0}
         onClick={(e) => {
-          setRating(e.target.value);
+          setArtScore(e.target.value);
         }}
-        checked={rating === 0}
+        checked={artScore === 0}
       />
       <input
         type="radio"
@@ -21,7 +17,7 @@ export const ArtDirection: React.FC = () => {
         className="mask mask-star-2 bg-orange-400"
         value={1}
         onClick={(e) => {
-          setRating(e.target.value);
+          setArtScore(e.target.value);
         }}
       />
       <input
@@ -30,7 +26,7 @@ export const ArtDirection: React.FC = () => {
         className="mask mask-star-2 bg-orange-400"
         value={2}
         onClick={(e) => {
-          setRating(e.target.value);
+          setArtScore(e.target.value);
         }}
       />
       <input
@@ -39,7 +35,7 @@ export const ArtDirection: React.FC = () => {
         className="mask mask-star-2 bg-orange-400"
         value={3}
         onClick={(e) => {
-          setRating(e.target.value);
+          setArtScore(e.target.value);
         }}
       />
       <input
@@ -48,7 +44,7 @@ export const ArtDirection: React.FC = () => {
         className="mask mask-star-2 bg-orange-400"
         value={4}
         onClick={(e) => {
-          setRating(e.target.value);
+          setArtScore(e.target.value);
         }}
       />
       <input
@@ -57,7 +53,7 @@ export const ArtDirection: React.FC = () => {
         className="mask mask-star-2 bg-orange-400"
         value={5}
         onClick={(e) => {
-          setRating(e.target.value);
+          setArtScore(e.target.value);
         }}
       />
     </div>

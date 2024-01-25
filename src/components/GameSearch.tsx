@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { searchGames } from "../utils/gamesApi";
 import GameCard from "./GameCard";
-import { NotScoredPage } from "./NotScoredPage";
 import { useNavigate } from "react-router-dom";
 
 export const GameSearch: React.FC = ({ setSelectedGame, selectedGame }) => {
@@ -18,11 +17,11 @@ export const GameSearch: React.FC = ({ setSelectedGame, selectedGame }) => {
   };
 
   useEffect(() => {
-    console.log(selectedGame)
+    console.log(selectedGame);
     if (isGameAdded === true) {
       navigate(`/games/${selectedGame.id}`);
     } else if (isGameAdded === false) {
-      navigate("/games/score-game");
+      navigate("/games/add-game");
     }
   }, [selectedGame]);
 
@@ -61,8 +60,6 @@ export const GameSearch: React.FC = ({ setSelectedGame, selectedGame }) => {
                 })}
           </div>
         </div>
-      ) : selectedGame && !isGameAdded ? (
-        <NotScoredPage game={selectedGame} />
       ) : selectedGame && isGameAdded ? (
         <p>reviews here</p>
       ) : null}

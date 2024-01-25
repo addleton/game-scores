@@ -36,7 +36,7 @@ function App() {
             element={<GameScorePage game={selectedGame} />}
           />
           <Route
-            path="/games/score-game"
+            path="/games/add-game"
             element={<NotScoredPage game={selectedGame} />}
           />
         </Routes>

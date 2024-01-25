@@ -1,7 +1,4 @@
-import { useState } from "react";
-
-export const Narrative: React.FC = () => {
-  const [rating, setRating] = useState(0);
+export const Narrative: React.FC = ({ narrativeScore, setNarrativeScore }) => {
 
   return (
     <div className="rating rating-md">
@@ -11,9 +8,9 @@ export const Narrative: React.FC = () => {
         className="rating-hidden"
         value={0}
         onClick={(e) => {
-          setRating(e.target.value);
+          setNarrativeScore(e.target.value);
         }}
-        checked={rating === 0}
+        checked={narrativeScore === 0}
       />
       <input
         type="radio"
@@ -21,7 +18,7 @@ export const Narrative: React.FC = () => {
         className="mask mask-star-2 bg-orange-400"
         value={1}
         onClick={(e) => {
-          setRating(e.target.value);
+          setNarrativeScore(e.target.value);
         }}
       />
       <input
@@ -30,7 +27,7 @@ export const Narrative: React.FC = () => {
         className="mask mask-star-2 bg-orange-400"
         value={2}
         onClick={(e) => {
-          setRating(e.target.value);
+          setNarrativeScore(e.target.value);
         }}
       />
       <input
@@ -39,7 +36,7 @@ export const Narrative: React.FC = () => {
         className="mask mask-star-2 bg-orange-400"
         value={3}
         onClick={(e) => {
-          setRating(e.target.value);
+          setNarrativeScore(e.target.value);
         }}
       />
       <input
@@ -48,7 +45,7 @@ export const Narrative: React.FC = () => {
         className="mask mask-star-2 bg-orange-400"
         value={4}
         onClick={(e) => {
-          setRating(e.target.value);
+          setNarrativeScore(e.target.value);
         }}
       />
       <input
@@ -57,7 +54,7 @@ export const Narrative: React.FC = () => {
         className="mask mask-star-2 bg-orange-400"
         value={5}
         onClick={(e) => {
-          setRating(e.target.value);
+          setNarrativeScore(e.target.value);
         }}
       />
     </div>

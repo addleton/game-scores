@@ -1,4 +1,5 @@
 import {
+  addDoc,
   collection,
   doc,
   getDoc,
@@ -15,6 +16,7 @@ import {
 } from "firebase/auth";
 import firebase from "firebase/compat/app";
 import axios from "axios";
+import { totalScore } from "./utils";
 
 // export const getGames = async () => {
 //   try {
@@ -77,7 +79,11 @@ export const signIn = async (email: string, password: string) => {
       user: { uid },
     } = await signInWithEmailAndPassword(auth, email, password);
     const userDoc = await getDoc(doc(db, "users", uid));
-    const user = userDoc.data();
+    const userData = userDoc.data();
+    const user = {
+      uid,
+      ...userData,
+    };
     return user;
   } catch (err) {
     console.error("Unable to sign in:", err);
@@ -93,7 +99,7 @@ export const searchGames = async (game: string) => {
     } = await axios.get(
       `https://api.rawg.io/api/games?key=${apiKey}&search=${game}`
     );
-    console.log(results)
+    console.log(results);
     return results;
   } catch (err) {
     console.error("Error retrieving game", err);
@@ -123,8 +129,57 @@ export const getSingleGame = async (id: number) => {
     const { data } = await axios.get(
       `https://api.rawg.io/api/games/${id.toString()}?key=${apiKey}`
     );
-    return data
+    return data;
   } catch (err) {
     console.error("Could not get single game:", err);
+  }
+};
+
+export const addGame = async (
+  game,
+  userId: string,
+  gameplay: number,
+  narrative: number,
+  soundtrack: number,
+  artDirection: number,
+  enjoyment: number
+) => {
+  const finalScore = totalScore(
+    gameplay,
+    narrative,
+    soundtrack,
+    artDirection,
+    enjoyment
+  );
+
+  try {
+    const docRef = await addDoc(collection(db, "games"), {
+      id: game.id,
+      name: game.name,
+      img: game.background_image,
+      developers: game.developers,
+      description: game.description_raw,
+      esrb_rating: game.esrb_rating,
+      genres: game.genres,
+      metacritic: game.metacritic,
+      platforms: game.platforms,
+      publishers: game.publishers,
+      released: game.released,
+    });
+    const docId = docRef.id;
+    await addDoc(collection(db, "userScores"), {
+      user_id: userId,
+      game_id: docId,
+      gameplay: Number(gameplay),
+      narrative: Number(narrative),
+      soundtrack: Number(soundtrack),
+      art_direction: Number(artDirection),
+      enjoyment: Number(enjoyment),
+      final_score: finalScore,
+    });
+    return true;
+  } catch (err) {
+    console.error("Error adding game:", err);
+    return false;
   }
 };

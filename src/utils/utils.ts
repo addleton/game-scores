@@ -1,10 +1,14 @@
-import Game from "../types/Types";
+export function totalScore(
+  gameplay: number,
+  narrative: number,
+  soundtrack: number,
+  artDirection: number,
+  enjoyment: number
+): number {
+  const finalScore =
+    (gameplay + narrative + soundtrack + artDirection + enjoyment) / 5;
 
-export function totalScore(game: Game): number {
-  return (
-    (game.gameplay + game.narrative + game.art + game.music + game.enjoyment) /
-    5
-  );
+  return finalScore;
 }
 
 export function getRandomGames<T>(games: T[]): T[] {
