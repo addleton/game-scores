@@ -6,6 +6,7 @@ import {
   getDocs,
   query,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { db, storage } from "../../firebaseConfig";
@@ -17,6 +18,7 @@ import {
 import firebase from "firebase/compat/app";
 import axios from "axios";
 import { totalScore } from "./utils";
+import { update } from "firebase/database";
 
 // export const getGames = async () => {
 //   try {
@@ -157,6 +159,7 @@ export const addGame = async (
       id: game.id,
       name: game.name,
       img: game.background_image,
+      alt_img: game.background_image_additional,
       developers: game.developers,
       description: game.description_raw,
       esrb_rating: game.esrb_rating,
@@ -165,21 +168,144 @@ export const addGame = async (
       platforms: game.platforms,
       publishers: game.publishers,
       released: game.released,
+      avg_gameplay: gameplay,
+      avg_narrative: narrative,
+      avg_soundtrack: soundtrack,
+      avg_art_direction: artDirection,
+      avg_enjoyment: enjoyment,
+      avg_final_score: finalScore,
+      total_scores: 1,
     });
     const docId = docRef.id;
     await addDoc(collection(db, "userScores"), {
       user_id: userId,
-      game_id: docId,
-      gameplay: Number(gameplay),
-      narrative: Number(narrative),
-      soundtrack: Number(soundtrack),
-      art_direction: Number(artDirection),
-      enjoyment: Number(enjoyment),
+      game_id: game.id,
+      gameplay: gameplay,
+      narrative: narrative,
+      soundtrack: soundtrack,
+      art_direction: artDirection,
+      enjoyment: enjoyment,
       final_score: finalScore,
     });
     return true;
   } catch (err) {
     console.error("Error adding game:", err);
     return false;
+  }
+};
+
+export const getGameFromFirestore = async (gameId: string) => {
+  try {
+    const querySnapshot = await getDocs(
+      query(collection(db, "games"), where("id", "==", Number(gameId)))
+    );
+    const data = querySnapshot.docs.map((doc) => {
+      return { id: doc.id, ...doc.data() };
+    });
+    return data[0];
+  } catch (err) {
+    console.error("Error retrieving games from Firestore:", err);
+  }
+};
+
+export const addScore = async (
+  userId: string,
+  gameplay: number,
+  narrative: number,
+  soundtrack: number,
+  artDirection: number,
+  enjoyment: number,
+  id: number
+) => {
+  const finalScore = totalScore(
+    gameplay,
+    narrative,
+    soundtrack,
+    artDirection,
+    enjoyment
+  );
+
+  try {
+    await addDoc(collection(db, "userScores"), {
+      user_id: userId,
+      game_id: id,
+      gameplay: gameplay,
+      narrative: narrative,
+      soundtrack: soundtrack,
+      art_direction: artDirection,
+      enjoyment: enjoyment,
+      final_score: finalScore,
+    });
+    const querySnapshot = await getDocs(
+      query(collection(db, "userScores"), where("game_id", "==", id))
+    );
+
+    let currGameplay = 0;
+    let currNarrative = 0;
+    let currSoundtrack = 0;
+    let currArtDirection = 0;
+    let currEnjoyment = 0;
+    let currFinalScore = 0;
+    let docCount = 0;
+
+    const allUserScores = querySnapshot.docs.map((doc) => {
+      return { id: doc.id, ...doc.data() };
+    });
+
+    allUserScores.forEach((userScore) => {
+      console.log(userScore);
+      currGameplay += userScore.gameplay;
+      currNarrative += userScore.narrative;
+      currSoundtrack += userScore.soundtrack;
+      currArtDirection += userScore.art_direction;
+      currEnjoyment += userScore.enjoyment;
+      currFinalScore += userScore.final_score;
+      docCount++;
+    });
+
+    const newGameplay = currGameplay / docCount;
+    const newNarrative = currNarrative / docCount;
+    const newSoundtrack = currSoundtrack / docCount;
+    const newArtDirection = currArtDirection / docCount;
+    const newEnjoyment = currEnjoyment / docCount;
+    const newFinalScore = currFinalScore / docCount;
+
+    const gameDocs = await getDocs(
+      query(collection(db, "games"), where("id", "==", id))
+    );
+    const gameDoc = gameDocs.docs[0].ref;
+
+    await updateDoc(gameDoc, {
+      avg_gameplay: newGameplay.toFixed(1),
+      avg_narrative: newNarrative.toFixed(1),
+      avg_soundtrack: newSoundtrack.toFixed(1),
+      avg_art_direction: newArtDirection.toFixed(1),
+      avg_enjoyment: newEnjoyment.toFixed(1),
+      avg_final_score: newFinalScore.toFixed(1),
+      total_scores: docCount,
+    });
+
+    return true;
+  } catch (err) {
+    console.error("Error adding game:", err);
+    return false;
+  }
+};
+
+export const checkUserScored = async (id: string) => {
+  try {
+    const querySnapshot = await getDocs(
+      query(collection(db, "userScores"), where("user_id", "==", id))
+    );
+    const data = querySnapshot.docs.map((doc) => {
+      return { id: doc.id, ...doc.data() };
+    });
+    if (data.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    console.error("Error checking if user has scored game:", err);
   }
 };

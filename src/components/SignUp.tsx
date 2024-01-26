@@ -42,7 +42,7 @@ export const SignUp: React.FC = () => {
   };
 
   return (
-    <div className="hero min-h-screen bg-base-200">
+    <div className="hero min-h-screen bg-base-100">
       <div className="hero-content flex-col 2xl:flex-row">
         {" "}
         <img src="/aloy2.png" className="max-w-md mr-20" />

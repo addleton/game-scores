@@ -5,17 +5,17 @@ import { Gameplay } from "./StarRatings/Gameplay";
 import { Narrative } from "./StarRatings/Narrative";
 import { Soundtrack } from "./StarRatings/Sountrack";
 import { UserContext } from "../context/UserContext";
-import { addGame } from "../utils/gamesApi";
-import { Link, useNavigate } from "react-router-dom";
+import { addScore } from "../utils/gamesApi";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-export const NotScoredPage: React.FC = ({ game }) => {
-  console.log(game);
+export const AddScorePage: React.FC = ({ game }) => {
   const [gameplayScore, setGameplayScore] = useState(0);
   const [narrativeScore, setNarrativeScore] = useState(0);
   const [soundScore, setSoundScore] = useState(0);
   const [artScore, setArtScore] = useState(0);
   const [enjoymentScore, setEnjoymentScore] = useState(0);
   const { user } = useContext(UserContext);
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const handleAddGame = async () => {
@@ -26,14 +26,14 @@ export const NotScoredPage: React.FC = ({ game }) => {
       artScore &&
       enjoymentScore
     ) {
-      const res = await addGame(
-        game,
+      const res = await addScore(
         user.uid,
         Number(gameplayScore),
         Number(narrativeScore),
         Number(soundScore),
         Number(artScore),
-        Number(enjoymentScore)
+        Number(enjoymentScore),
+        Number(id),
       );
       if (res) {
         navigate(`/games/${game.id}`);

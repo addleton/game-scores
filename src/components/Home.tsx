@@ -37,7 +37,7 @@ const Home = () => {
   console.log(randomGames);
 
   return (
-    <div className="hero min-h-screen bg-base-200">
+    <div className="hero min-h-screen bg-base-100">
       <div className="hero-content flex-col lg:flex-row">
         <img src="/mario-luigi.png" className="max-w-sm" />
         <div>

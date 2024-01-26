@@ -9,10 +9,19 @@ import { UserProvider } from "./context/UserContext";
 import { GameSearch } from "./components/GameSearch";
 import { NotScoredPage } from "./components/NotScoredPage";
 import { GameScorePage } from "./components/GameScorePage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { AddScorePage } from "./components/AddScorePage";
 
 function App() {
   const [selectedGame, setSelectedGame] = useState(null);
+  const [selectedGameId, setSelectedGameId] = useState(null);
+
+  useEffect(() => {
+    if (selectedGame !== null) {
+      setSelectedGameId(selectedGame.id);
+    }
+  }, [selectedGame]);
+
   return (
     <>
       <UserProvider>
@@ -33,11 +42,15 @@ function App() {
           />
           <Route
             path="/games/:id"
-            element={<GameScorePage game={selectedGame} />}
+            element={<GameScorePage id={selectedGameId} />}
           />
           <Route
             path="/games/add-game"
             element={<NotScoredPage game={selectedGame} />}
+          />
+          <Route
+            path="/games/:id/add-score"
+            element={<AddScorePage game={selectedGame} />}
           />
         </Routes>
       </UserProvider>
