@@ -9,7 +9,6 @@ import { addGame } from "../utils/gamesApi";
 import { Link, useNavigate } from "react-router-dom";
 
 export const NotScoredPage: React.FC = ({ game }) => {
-  console.log(game);
   const [gameplayScore, setGameplayScore] = useState(0);
   const [narrativeScore, setNarrativeScore] = useState(0);
   const [soundScore, setSoundScore] = useState(0);

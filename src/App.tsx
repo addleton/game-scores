@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
 import Home from "./components/Home";
-import Games from "./components/Games";
+import { Games } from "./components/Games";
 import { SignUp } from "./components/SignUp";
 import { Login } from "./components/Login";
 import { UserProvider } from "./context/UserContext";
@@ -11,6 +11,7 @@ import { NotScoredPage } from "./components/NotScoredPage";
 import { GameScorePage } from "./components/GameScorePage";
 import { useEffect, useState } from "react";
 import { AddScorePage } from "./components/AddScorePage";
+import { UserProfile } from "./components/UserProfile";
 
 function App() {
   const [selectedGame, setSelectedGame] = useState(null);
@@ -52,6 +53,7 @@ function App() {
             path="/games/:id/add-score"
             element={<AddScorePage game={selectedGame} />}
           />
+          <Route path="/profile" element={<UserProfile />} />
         </Routes>
       </UserProvider>
     </>

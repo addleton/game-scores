@@ -17,7 +17,6 @@ export const GameSearch: React.FC = ({ setSelectedGame, selectedGame }) => {
   };
 
   useEffect(() => {
-    console.log(selectedGame);
     if (isGameAdded === true) {
       navigate(`/games/${selectedGame.id}`);
     } else if (isGameAdded === false) {

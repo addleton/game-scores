@@ -49,3 +49,7 @@ html {
 .game-score-body {
   grid-area: 3 / 2 / 4 / 5;
 }
+
+.game-table-header:hover {
+  cursor: pointer;
+}

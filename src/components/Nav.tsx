@@ -14,13 +14,11 @@ const Nav = () => {
           </Link>
         </div>
         <div className="flex-none gap-2">
-          <button className="btn btn-outline">
-            <Link to="/game-search" className="link link-hover">
-              Search
-            </Link>
-          </button>
           <Link to="/game-search" className="link link-hover">
-            Games
+            <button className="btn btn-ghost">Search</button>
+          </Link>
+          <Link to="/games" className="link link-hover">
+            <button className="btn btn-ghost">Games</button>
           </Link>
           {user === undefined ? null : (
             <div className="dropdown dropdown-end">
@@ -48,7 +46,9 @@ const Nav = () => {
                 className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
               >
                 <li>
-                  <a className="justify-between">Profile</a>
+                  <Link to="/profile">
+                    <p className="justify-between">Profile</p>
+                  </Link>
                 </li>
                 <li>
                   <a>My Games</a>

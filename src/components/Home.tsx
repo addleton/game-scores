@@ -1,15 +1,17 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
-import {db} from "../../firebaseConfig";
-import { useEffect, useState } from "react";
+import { db } from "../../firebaseConfig";
+import { useContext, useEffect, useState } from "react";
 import Game from "../types/Types";
 
 import { getRandomGames } from "../utils/utils";
 
 import MustPlayCarousel from "./MustPlayCarousel";
 import { Link } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 const Home = () => {
   const [randomGames, setRandomGames] = useState<Game[]>([]);
+  const { user } = useContext(UserContext);
 
   const getRecommendedGames = async () => {
     const querySnapshot = await getDocs(
@@ -34,8 +36,6 @@ const Home = () => {
     background: "#364d79",
   };
 
-  console.log(randomGames);
-
   return (
     <div className="hero min-h-screen bg-base-100">
       <div className="hero-content flex-col lg:flex-row">
@@ -43,12 +43,15 @@ const Home = () => {
         <div>
           <h1 className="text-5xl font-bold">Welcome to myGameScores</h1>
           <p className="py-6">
-Step into a community-driven platform where
-            your opinions matter. Whether you're a casual player or a hardcore
-            enthusiast, this is your space to rate and review the games you've
-            played.
+            Step into a community-driven platform where your opinions matter.
+            Whether you're a casual player or a hardcore enthusiast, this is
+            your space to rate and review the games you've played.
           </p>
-          <Link to='/login'><button className="btn btn-primary">Log In</button></Link>
+          {user ? null : (
+            <Link to="/login">
+              <button className="btn btn-primary">Log In</button>
+            </Link>
+          )}
         </div>
       </div>
     </div>

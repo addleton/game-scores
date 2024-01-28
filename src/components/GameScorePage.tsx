@@ -9,13 +9,14 @@ export const GameScorePage: React.FC = () => {
   const [hasScored, setHasScored] = useState(false);
   const { user } = useContext(UserContext);
   const { id } = useParams();
-console.log(user)
   useEffect(() => {
     const fetchGame = async () => {
       try {
         const gameData = await getGameFromFirestore(id);
-        const res = await checkUserScored(user.uid);
-        setHasScored(res);
+        if (user) {
+          const res = await checkUserScored(user.uid);
+          setHasScored(res);
+        }
         setGame(gameData);
         setLoading(false);
       } catch (error) {

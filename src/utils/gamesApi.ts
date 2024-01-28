@@ -4,6 +4,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  orderBy,
   query,
   setDoc,
   updateDoc,
@@ -99,9 +100,8 @@ export const searchGames = async (game: string) => {
     const {
       data: { results },
     } = await axios.get(
-      `https://api.rawg.io/api/games?key=${apiKey}&search=${game}`
+      `https://api.rawg.io/api/games?key=${apiKey}&search=${game}&page_size=18`
     );
-    console.log(results);
     return results;
   } catch (err) {
     console.error("Error retrieving game", err);
@@ -307,5 +307,19 @@ export const checkUserScored = async (id: string) => {
     }
   } catch (err) {
     console.error("Error checking if user has scored game:", err);
+  }
+};
+
+export const getAllFirestoreGames = async (sort: string, order: string) => {
+  try {
+    const querySnapshot = await getDocs(
+      query(collection(db, "games"), orderBy(sort, order))
+    );
+    const games = querySnapshot.docs.map((doc) => {
+      return { id: doc.id, ...doc.data() };
+    });
+    return games;
+  } catch (err) {
+    console.error("Error getting all games from Firestore:", err);
   }
 };
