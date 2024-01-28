@@ -53,3 +53,7 @@ html {
 .game-table-header:hover {
   cursor: pointer;
 }
+
+.div {
+  width: 100%;
+}
