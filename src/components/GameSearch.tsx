@@ -3,11 +3,15 @@ import { searchGames } from "../utils/gamesApi";
 import GameCard from "./GameCard";
 import { useNavigate } from "react-router-dom";
 
-export const GameSearch: React.FC = ({ setSelectedGame, selectedGame }) => {
+export const GameSearch: React.FC = ({
+  setSelectedGame,
+  selectedGame,
+  homepageSearchInput,
+}) => {
   const navigate = useNavigate();
-  const [searchInput, setSearchInput] = useState("");
   const [games, setGames] = useState(undefined);
   const [isGameAdded, setIsGameAdded] = useState(null);
+  const [searchInput, setSearchInput] = useState("");
 
   const handleGameSearch = async (e) => {
     e.preventDefault();
@@ -17,12 +21,22 @@ export const GameSearch: React.FC = ({ setSelectedGame, selectedGame }) => {
   };
 
   useEffect(() => {
+    const functionFromHomepage = async () => {
+      setSearchInput(homepageSearchInput)
+      const data = await searchGames(homepageSearchInput);
+       setGames(data);
+    };
+
+    if (homepageSearchInput) {
+      functionFromHomepage();
+    }
+
     if (isGameAdded === true) {
       navigate(`/games/${selectedGame.id}`);
     } else if (isGameAdded === false) {
       navigate("/games/add-game");
     }
-  }, [selectedGame]);
+  }, [selectedGame, homepageSearchInput]);
 
   return (
     <>
@@ -38,7 +52,7 @@ export const GameSearch: React.FC = ({ setSelectedGame, selectedGame }) => {
             onChange={(e) => {
               setSearchInput(e.target.value);
             }}
-            className="input input-bordered w-24 md:w-auto"
+            className="input input-bordered input-secondary w-24 md:w-auto "
           />
         </div>
       </form>

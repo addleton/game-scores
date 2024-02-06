@@ -2,7 +2,7 @@ import { Rating } from "@mui/material";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import { useNavigate } from "react-router-dom";
 
-const CarouselCard: React.FC = ({ game }) => {
+const MobileRecommendedCard: React.FC = ({ game }) => {
   const navigate = useNavigate();
   const handleCardClick = async () => {
     navigate(`/games/${game.id}`);
@@ -10,15 +10,15 @@ const CarouselCard: React.FC = ({ game }) => {
 
   return (
     <div
-      className="card max-w-full h-40  image-full hover:scale-110 transition-transform border border-secondary"
+      className="card max-w-screen max-h-64 min-h-64 image-full border-b border-t"
       onClick={handleCardClick}
     >
       <figure>
-        <img className="card-image max-w-64" src={game.img} alt="Shoes" />
+        <img className="card-image min-w-screen max-w-screen" src={game.img} alt="Shoes" />
       </figure>
-      <div className="card-body w-64">
+      <div className="card-body w-screen max-w-screen">
         <p>{""}</p>
-        <div className="card-actions justify-center ">
+        <div className="justify-center align-center items-center w-full max-w-screen">
           <Rating
             name="read-only"
             value={game.avg_final_score}
@@ -38,4 +38,4 @@ const CarouselCard: React.FC = ({ game }) => {
   );
 };
 
-export default CarouselCard;
+export default MobileRecommendedCard;

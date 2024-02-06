@@ -10,30 +10,15 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { db, storage } from "../../firebaseConfig";
+import { db } from "../../firebaseConfig";
 import {
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
-import firebase from "firebase/compat/app";
 import axios from "axios";
-import { totalScore } from "./utils";
-import { update } from "firebase/database";
-
-// export const getGames = async () => {
-//   try {
-//     const querySnapshot = await getDocs(
-//       query(collection(db, "games"), orderBy("enjoyment", "desc"))
-//     );
-//     const data: Game[] = querySnapshot.docs.map((doc) => {
-//       return { id: doc.id, ...doc.data() } as Game;
-//     });
-//     setGames(data);
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
+import { getRandomGames, totalScore } from "./utils";
 
 export const checkUsernames = async (username) => {
   try {
@@ -91,6 +76,29 @@ export const signIn = async (email: string, password: string) => {
   } catch (err) {
     console.error("Unable to sign in:", err);
     return false;
+  }
+};
+
+export const getSignedInUserInfo = async (uid: string) => {
+  try {
+    const userDoc = await getDoc(doc(db, "users", uid));
+    const userData = userDoc.data();
+    const user = {
+      uid,
+      ...userData,
+    };
+    return user;
+  } catch (err) {
+    console.error("Error getting signed in user info:", err);
+  }
+};
+
+export const signOutUser = async () => {
+  try {
+    const auth = getAuth();
+    await signOut(auth);
+  } catch (err) {
+    console.error("Error signing out user:", err);
   }
 };
 
@@ -321,5 +329,56 @@ export const getAllFirestoreGames = async (sort: string, order: string) => {
     return games;
   } catch (err) {
     console.error("Error getting all games from Firestore:", err);
+  }
+};
+
+export const getAndStoreGames = async (variable: string) => {
+  try {
+    const querySnapshot = await getDocs(
+      query(collection(db, "games"), where(`avg_${variable}`, "==", 5))
+    );
+    const data = querySnapshot.docs.map((doc) => {
+      return { id: doc.id, ...doc.data() };
+    });
+    const randomGames = getRandomGames(data, 5);
+    const timestamp = Date.now();
+    localStorage.setItem(
+      `cached_${variable}`,
+      JSON.stringify([...randomGames, timestamp])
+    );
+  } catch (err) {
+    console.error("Error getting or storing games:", err);
+  }
+};
+
+export const getCachedGames = (variable: string) => {
+  const cachedGames = localStorage.getItem(`cached_${variable}`);
+  if (cachedGames) {
+    const data = JSON.parse(cachedGames);
+    const cachedData = data.filter((entry) => {
+      return typeof entry === "object";
+    });
+    const [cachedTimestamp] = data.filter((entry) => {
+      return typeof entry === "number";
+    });
+
+    const currentTime = Date.now();
+
+    if (currentTime - cachedTimestamp < 24 * 60 * 60 * 1000) {
+      return cachedData;
+    } else {
+      return null;
+    }
+  }
+};
+
+export const writeGamesToLocal = async (games) => {
+  try {
+    localStorage.setItem(
+      "cachedData",
+      JSON.stringify({ games, timestamp: Date.now() })
+    );
+  } catch (err) {
+    console.error("Error storing games locally:", err);
   }
 };
