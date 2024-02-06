@@ -27,7 +27,7 @@ const Home = ({
       navigate("/game-search");
     }
   };
-  console.log(user)
+
   const retrieveInfo = async () => {
     await setHomepageSearchInput("");
     if (!gameplayGames || !narrativeGames || !musicGames || !artGames) {
@@ -71,11 +71,8 @@ const Home = ({
         setScreenSize("desktop");
       }
     };
-
     handleResize();
-
     window.addEventListener("resize", handleResize);
-
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -84,16 +81,16 @@ const Home = ({
   if (screenSize === "desktop") {
     if (isLoading) {
       return (
-        <div className="hero min-h-screen" id="home-page-full">
+        <div className="hero min-h-screen">
           <span className="loading loading-spinner text-primary"></span>
         </div>
       );
     } else {
       return (
-        <div className="hero min-h-screen max-w-screen" id="home-page-full">
+        <div className="hero min-h-screen max-w-screen min-w-screen">
           {user ? (
-            <div className="w-screen">
-              <div className="hero min-h-screen min-w-screen bg-primary">
+            <div className="home-page-container">
+              <div className="hero min-h-screen bg-primary">
                 <div className="hero-content text-center text-neutral-content">
                   <div className="max-w-md">
                     <h1 className="mb-5 text-5xl font-bold">Welcome!</h1>
@@ -104,7 +101,7 @@ const Home = ({
                       games you've played.
                     </p>
                     <form
-                      className="container mx-auto flex items-center justify-center"
+                      className="flex justify-center"
                       onSubmit={handleSearchSubmit}
                     >
                       <div className="form-control w-5/6">
@@ -124,7 +121,7 @@ const Home = ({
               </div>
               <div className="home-page hero ">
                 <h1 className="text-xl font-bold ml-20 mb-12 mt-20">
-                  Discover games celebrated for their...
+                  Discover games celebrated for...
                 </h1>
                 <div className="home-page-card-section shadow-2xl">
                   <h2 className="ml-12 home-page-card-titles text-lg">
@@ -204,7 +201,7 @@ const Home = ({
       return (
         <div className=" min-h-screen max-w-screen">
           {user ? (
-            <div className="">
+            <div className="max-w-screen">
               <div className="hero min-h-screen min-w-screen bg-primary">
                 <div className="hero-content text-center text-neutral-content">
                   <div className="max-w-screen mobile-home-search">
@@ -215,9 +212,7 @@ const Home = ({
                       enthusiast, this is your space to rate and review the
                       games you've played.
                     </p>
-                    <form
-                      onSubmit={handleSearchSubmit}
-                    >
+                    <form onSubmit={handleSearchSubmit}>
                       <div>
                         <input
                           type="text"
@@ -235,47 +230,47 @@ const Home = ({
               </div>
               <div className="mobile-recommended-section">
                 <h1 className="text-lg font-bold  mb-6 mt-20">
-                  Discover games celebrated for their
+                  Discover games celebrated for...
                 </h1>
-                <div >
+                <div>
                   <h2 className="home-page-card-titles text-lg">
                     Unrivaled gameplay
                   </h2>
                   <div className="mobile-home-games ">
-                    {gameplayGames.map((game) => {
+                    {gameplayGames.slice(0, 1).map((game) => {
                       return <MobileRecommendedCard game={game} />;
                     })}
                   </div>
                 </div>
                 <div className="divider home-page-divider" />
-                <div >
+                <div>
                   <h2 className=" home-page-card-titles text-lg">
                     Captivating stories
                   </h2>
                   <div className="mobile-home-games ">
-                    {narrativeGames.map((game) => {
+                    {narrativeGames.slice(0, 1).map((game) => {
                       return <MobileRecommendedCard game={game} />;
                     })}
                   </div>
                 </div>
                 <div className="divider home-page-divider" />
-                <div >
+                <div>
                   <h2 className="home-page-card-titles text-lg">
                     Unforgettable music
                   </h2>
                   <div className="mobile-home-games ">
-                    {musicGames.map((game) => {
+                    {musicGames.slice(0, 1).map((game) => {
                       return <MobileRecommendedCard game={game} />;
                     })}
                   </div>
                 </div>
                 <div className="divider home-page-divider" />
-                <div >
+                <div>
                   <h2 className="home-page-card-titles text-lg">
                     Visually stunning artwork
                   </h2>
                   <div className="mobile-home-games">
-                    {artGames.map((game) => {
+                    {artGames.slice(0, 1).map((game) => {
                       return <MobileRecommendedCard game={game} />;
                     })}
                   </div>
@@ -283,9 +278,8 @@ const Home = ({
               </div>
             </div>
           ) : (
-            <div className="hero-content flex-col lg:flex-row">
-              <img src="/mario-luigi.png" className="max-w-sm" />
-              <div>
+            <div className="mobile-logged-out-homepage-container">
+              <div className="mobile-logged-out-homepage">
                 <h1 className="text-5xl font-bold">Welcome to myGameScores</h1>
                 <p className="py-6">
                   Step into a community-driven platform where your opinions
