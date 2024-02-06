@@ -1,16 +1,23 @@
+import { useNavigate } from "react-router-dom";
 import { checkFirestoreGames, getSingleGame } from "../utils/gamesApi";
 
 const GameCard: React.FC = ({ game, setSelectedGame, setIsGameAdded }) => {
+  const navigate = useNavigate();
   const handleCardClick = async () => {
     const gameAdded = await checkFirestoreGames(game.id);
-    setIsGameAdded(gameAdded);
-    const singleGame = await getSingleGame(game.id);
-    setSelectedGame(singleGame);
+    await setIsGameAdded(gameAdded);
+    if (gameAdded) {
+      navigate(`/games/${game.id}`);
+    } else {
+      const singleGame = await getSingleGame(game.id);
+
+      await setSelectedGame(singleGame);
+    }
   };
 
   return (
     <div
-      className="card w-full max-h-64 bg-base-100 shadow-xl image-full hover:scale-110 transition-transform"
+      className="card w-full max-h-64 bg-base-100 shadow-xl image-full hover:scale-110 transition-transform border border-secondary"
       onClick={handleCardClick}
     >
       <figure>

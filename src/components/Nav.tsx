@@ -1,13 +1,21 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import { signOutUser } from "../utils/gamesApi";
 
 const Nav = () => {
+  const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
+
+  const handleSignOut = async () => {
+    await signOutUser();
+    setUser(undefined);
+    navigate("/");
+  };
 
   return (
     <nav>
-      <div className="navbar bg-base-100">
+      <div className="navbar border-b border-secondary">
         <div className="flex-1">
           <Link to="/" className="btn btn-ghost text-xl">
             myGameScores
@@ -20,7 +28,7 @@ const Nav = () => {
           <Link to="/games" className="link link-hover">
             <button className="btn btn-ghost">Games</button>
           </Link>
-          {user === undefined ? null : (
+          {user === null || user === undefined ? null : (
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
@@ -54,7 +62,13 @@ const Nav = () => {
                   <a>My Games</a>
                 </li>
                 <li>
-                  <a>Logout</a>
+                  <button
+                    onClick={() => {
+                      handleSignOut();
+                    }}
+                  >
+                    Logout
+                  </button>
                 </li>
               </ul>
             </div>

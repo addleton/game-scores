@@ -5,30 +5,56 @@ import Home from "./components/Home";
 import { Games } from "./components/Games";
 import { SignUp } from "./components/SignUp";
 import { Login } from "./components/Login";
-import { UserProvider } from "./context/UserContext";
+import { UserContext } from "./context/UserContext";
 import { GameSearch } from "./components/GameSearch";
 import { NotScoredPage } from "./components/NotScoredPage";
 import { GameScorePage } from "./components/GameScorePage";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AddScorePage } from "./components/AddScorePage";
 import { UserProfile } from "./components/UserProfile";
-
+import { onAuthStateChanged } from "firebase/auth";
+import { getSignedInUserInfo } from "./utils/gamesApi";
+import { auth } from "../firebaseConfig";
 function App() {
   const [selectedGame, setSelectedGame] = useState(null);
   const [selectedGameId, setSelectedGameId] = useState(null);
+  const [homepageSearchInput, setHomepageSearchInput] = useState("");
+  const { setUser } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (selectedGame !== null) {
       setSelectedGameId(selectedGame.id);
     }
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const loggedInUser = await getSignedInUserInfo(user.uid);
+        await setUser(loggedInUser);
+      } else {
+        setUser(null);
+      }
+    });
+    setIsLoading(false);
+    return () => unsubscribe();
   }, [selectedGame]);
-
-  return (
-    <>
-      <UserProvider>
+  console.log(selectedGame);
+  if (isLoading) {
+    return null;
+  } else {
+    return (
+      <>
         <Header />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={
+              <Home
+                homepageSearchInput={homepageSearchInput}
+                setHomepageSearchInput={setHomepageSearchInput}
+                setSelectedGame={setSelectedGame}
+              />
+            }
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/games" element={<Games />} />
@@ -38,6 +64,7 @@ function App() {
               <GameSearch
                 setSelectedGame={setSelectedGame}
                 selectedGame={selectedGame}
+                homepageSearchInput={homepageSearchInput}
               />
             }
           />
@@ -55,9 +82,9 @@ function App() {
           />
           <Route path="/profile" element={<UserProfile />} />
         </Routes>
-      </UserProvider>
-    </>
-  );
+      </>
+    );
+  }
 }
 
 export default App;

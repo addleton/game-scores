@@ -2,6 +2,8 @@ import { Link, useParams } from "react-router-dom";
 import { checkUserScored, getGameFromFirestore } from "../utils/gamesApi";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
+import { Rating } from "@mui/material";
+import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 
 export const GameScorePage: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -9,6 +11,7 @@ export const GameScorePage: React.FC = () => {
   const [hasScored, setHasScored] = useState(false);
   const { user } = useContext(UserContext);
   const { id } = useParams();
+
   useEffect(() => {
     const fetchGame = async () => {
       try {
@@ -33,7 +36,7 @@ export const GameScorePage: React.FC = () => {
     return (
       <div className="hero min-h-screen min-w-screen bg-base-100 flex content-center justify-evenly">
         <div className="hero-content flex-col box-content bg-base-100 shadow-xl rounded-lg min-w-96">
-          <h1 className="text-4xl font-bold">{game.name}</h1>
+          <h1 className="text-6xl font-bold">{game.name}</h1>
           <div className="hero-content flex-col lg:flex-row">
             <img
               src={game.img}
@@ -48,7 +51,7 @@ export const GameScorePage: React.FC = () => {
           <div className="hero-content flex-col lg:flex-row-reverse w-full content-evenly justify-evenly">
             <img
               src={game.alt_img}
-              className="max-w-2xl rounded-lg shadow-2xl w-full justify"
+              className="max-w-4xl rounded-lg shadow-2xl ml-20 justify"
             />
             <div className="divider lg:divider-horizontal" />
             <div className="container flex-col max-w-36">
@@ -104,85 +107,122 @@ export const GameScorePage: React.FC = () => {
           </div>
         </div>
         <div className="divider lg:divider-horizontal" />
-
-        <div className="flex-col ">
-          <h3 className="text-xl font-bold">Gameplay</h3>
-
-          <div className="flex mb-4">
-            <div className="rating rating-md mr-2">
-              <input
-                type="radio"
-                name="rating-8"
-                className="mask mask-star-2 bg-orange-400"
-              />
+        <div className="stats text-lg font-bold p-0 m-0 max-w-48 flex-col min-h-screen content-center">
+          <div className="flex-col max-w-48">
+            <div className="stat">
+              <div className="stat-title">Gameplay</div>
+              <div className="stat-value">
+                <Rating
+                  name="read-only"
+                  value={game.avg_gameplay}
+                  precision={0.1}
+                  readOnly
+                  id="Rating"
+                  emptyIcon={
+                    <StarBorderOutlinedIcon
+                      style={{color: "grey"  }}
+                      fontSize="inherit"
+                    />
+                  }
+                />
+              </div>
             </div>
-            <h3 className="text-xl font-bold">{game.avg_gameplay}</h3>
-          </div>
-          <h3 className="text-xl font-bold">Narrative</h3>
-
-          <div className="flex mb-4">
-            <div className="rating rating-md mr-2">
-              <input
-                type="radio"
-                name="rating-8"
-                className="mask mask-star-2 bg-orange-400"
-              />
+            <div className="stat">
+              <div className="stat-title">Narrative</div>
+              <div className="stat-value">
+                <Rating
+                  name="read-only"
+                  value={game.avg_narrative}
+                  precision={0.1}
+                  readOnly
+                  id="Rating"
+                  emptyIcon={
+                    <StarBorderOutlinedIcon
+                      style={{ color: "grey"  }}
+                      fontSize="inherit"
+                    />
+                  }
+                />
+              </div>
             </div>
-            <h3 className="text-xl font-bold">{game.avg_narrative}</h3>
-          </div>
-          <h3 className="text-xl font-bold ">Soundtrack / Score</h3>
-
-          <div className="flex mb-4">
-            <div className="rating rating-md mr-2">
-              <input
-                type="radio"
-                name="rating-8"
-                className="mask mask-star-2 bg-orange-400"
-              />
+            <div className="stat">
+              <div className="stat-title">Music</div>
+              <div className="stat-value">
+                <Rating
+                  name="read-only"
+                  value={game.avg_soundtrack}
+                  precision={0.1}
+                  readOnly
+                  id="Rating"
+                  emptyIcon={
+                    <StarBorderOutlinedIcon
+                      style={{ color: "grey"  }}
+                      fontSize="inherit"
+                    />
+                  }
+                />
+              </div>
             </div>
-            <h3 className="text-xl font-bold">{game.avg_soundtrack}</h3>
-          </div>
-          <h3 className="text-xl font-bold">Art Direction</h3>
-
-          <div className="flex mb-4">
-            <div className="rating rating-md mr-2">
-              <input
-                type="radio"
-                name="rating-8"
-                className="mask mask-star-2 bg-orange-400"
-              />
+            <div className="stat">
+              <div className="stat-title">Art Direction</div>
+              <div className="stat-value">
+                <Rating
+                  name="read-only"
+                  value={game.avg_art_direction}
+                  precision={0.1}
+                  readOnly
+                  id="Rating"
+                  emptyIcon={
+                    <StarBorderOutlinedIcon
+                      style={{ color: "grey"  }}
+                      fontSize="inherit"
+                    />
+                  }
+                />
+              </div>
             </div>
-            <h3 className="text-xl font-bold">{game.avg_art_direction}</h3>
-          </div>
-          <h3 className="text-xl font-bold ">Personal Enjoyment</h3>
-
-          <div className="flex mb-4">
-            <div className="rating rating-md mr-2">
-              <input
-                type="radio"
-                name="rating-8"
-                className="mask mask-star-2 bg-orange-400"
-              />
+            <div className="stat">
+              <div className="stat-title">Enjoyment</div>
+              <div className="stat-value">
+                <Rating
+                  name="read-only"
+                  value={game.avg_enjoyment}
+                  precision={0.1}
+                  readOnly
+                  id="Rating"
+                  emptyIcon={
+                    <StarBorderOutlinedIcon
+                      style={{ color: "grey" }}
+                      fontSize="inherit"
+                    />
+                  }
+                />
+              </div>
             </div>
-            <h3 className="text-xl font-bold">{game.avg_enjoyment}</h3>
-          </div>
-          <h3 className="text-4xl font-bold">Final Score</h3>
-
-          <div className="flex mb-4">
-            <div className="rating rating-lg mr-2">
-              <input
-                type="radio"
-                name="rating-8"
-                className="mask mask-star-2 bg-orange-400"
-              />
+            <div className="stat">
+              <div className="stat-title">Final Score</div>
+              <div className="stat-value">
+                <Rating
+                  name="read-only"
+                  value={game.avg_final_score}
+                  precision={0.1}
+                  readOnly
+                  size="large"
+                  id="Rating"
+                  emptyIcon={
+                    <StarBorderOutlinedIcon
+                      style={{  color: "grey" }}
+                      fontSize="inherit"
+                    />
+                  }
+                />
+              </div>
             </div>
-            <h3 className="text-4xl font-bold">{game.avg_final_score}</h3>
+
+            <div className="min-w-full flex justify-center">
+              <p className="text-8xl">{game.avg_final_score.toFixed(1)}</p>
+            </div>
           </div>
-          {hasScored ? null : (
-            <Link to={"add-score"}>
-              <button className="btn btn-outline">Add your score</button>
-            </Link>
-          )}
         </div>
       </div>
     );
