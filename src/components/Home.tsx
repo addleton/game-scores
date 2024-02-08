@@ -195,12 +195,13 @@ const Home = ({
                       enthusiast, this is your space to rate and review the
                       games you've played.
                     </p>
-                    <form onSubmit={handleSearchSubmit}>
-                      <div>
+                    <form onSubmit={handleSearchSubmit}
+                    className="container mx-auto flex items-center justify-center mt-16 mb-8">
+                      <div className="form-control w-3/6">
                         <input
                           type="text"
                           placeholder="Search games"
-                          className="input input-bordered input-secondary w-40 md:w-auto"
+                          className="input input-bordered input-secondary  md:w-auto"
                           value={homepageSearchInput}
                           onChange={(e) => {
                             setHomepageSearchInput(e.target.value);
