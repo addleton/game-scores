@@ -92,7 +92,7 @@ const Nav = () => {
   } else {
     return (
       <nav>
-        <div className="navbar bg-base-100">
+        <div className="navbar border-b border-secondary">
           <div className="navbar-start">
             <div className="dropdown">
               <div

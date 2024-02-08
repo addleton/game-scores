@@ -149,3 +149,12 @@ html {
 ::placeholder {
   text-align: center;
 }
+
+.mobile-add-game-image {
+  min-width: 100vw;
+  max-width: 100vw;
+}
+
+.mobile-add-game-text {
+  text-align: center;
+}
