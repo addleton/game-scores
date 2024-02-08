@@ -158,3 +158,20 @@ html {
 .mobile-add-game-text {
   text-align: center;
 }
+
+.mobile-game-score-image {
+  min-width: 100vw;
+  max-width: 100vw;
+}
+
+.mobile-game-score-text {
+  max-width: 80vw;
+  min-width: 80vw;
+  text-align: center;
+}
+
+.mobile-stat-pairs {
+  display: flex;
+  text-align: center;
+  width: 100%;
+}

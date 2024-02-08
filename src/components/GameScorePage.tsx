@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { Rating } from "@mui/material";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
+import { resizeFunction } from "../utils/utils";
 
 export const GameScorePage: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -11,6 +12,7 @@ export const GameScorePage: React.FC = () => {
   const [hasScored, setHasScored] = useState(false);
   const { user } = useContext(UserContext);
   const { id } = useParams();
+  const [screenSize, setScreenSize] = useState(null);
 
   useEffect(() => {
     const fetchGame = async () => {
@@ -30,9 +32,20 @@ export const GameScorePage: React.FC = () => {
     fetchGame();
   }, [id]);
 
-  if (loading) {
-    return <h2>loading</h2>;
-  } else {
+  useEffect(() => {
+    const resize = resizeFunction(setScreenSize);
+    return () => {
+      resize();
+    };
+  }, []);
+
+  if (loading || !screenSize) {
+    return (
+      <div className="hero min-h-screen">
+        <span className="loading loading-spinner text-primary"></span>
+      </div>
+    );
+  } else if (screenSize === "desktop") {
     return (
       <div className="hero min-h-screen min-w-screen bg-base-100 flex content-center justify-evenly">
         <div className="hero-content flex-col box-content bg-base-100 shadow-xl rounded-lg min-w-96">
@@ -59,7 +72,11 @@ export const GameScorePage: React.FC = () => {
 
               <div className="flex-col mb-4">
                 {game.genres.map((genre) => {
-                  return <h3 className="text-sm font-bold">{genre.name}</h3>;
+                  return (
+                    <h3 key={genre.name} className="text-sm font-bold">
+                      {genre.name}
+                    </h3>
+                  );
                 })}
               </div>
               <h3 className="text-xl font-bold ">Platform(s)</h3>
@@ -67,7 +84,10 @@ export const GameScorePage: React.FC = () => {
               <div className="flex-col mb-4">
                 {game.platforms.map((platform) => {
                   return (
-                    <h3 className="text-sm font-bold">
+                    <h3
+                      key={platform.platform.name}
+                      className="text-sm font-bold"
+                    >
                       {platform.platform.name}
                     </h3>
                   );
@@ -89,7 +109,9 @@ export const GameScorePage: React.FC = () => {
               <div className="flex-col mb-4">
                 {game.developers.map((developer) => {
                   return (
-                    <h3 className="text-sm font-bold">{developer.name}</h3>
+                    <h3 key={developer.name} className="text-sm font-bold">
+                      {developer.name}
+                    </h3>
                   );
                 })}
               </div>
@@ -120,7 +142,7 @@ export const GameScorePage: React.FC = () => {
                   id="Rating"
                   emptyIcon={
                     <StarBorderOutlinedIcon
-                      style={{color: "grey"  }}
+                      style={{ color: "grey" }}
                       fontSize="inherit"
                     />
                   }
@@ -138,7 +160,7 @@ export const GameScorePage: React.FC = () => {
                   id="Rating"
                   emptyIcon={
                     <StarBorderOutlinedIcon
-                      style={{ color: "grey"  }}
+                      style={{ color: "grey" }}
                       fontSize="inherit"
                     />
                   }
@@ -156,7 +178,7 @@ export const GameScorePage: React.FC = () => {
                   id="Rating"
                   emptyIcon={
                     <StarBorderOutlinedIcon
-                      style={{ color: "grey"  }}
+                      style={{ color: "grey" }}
                       fontSize="inherit"
                     />
                   }
@@ -174,7 +196,7 @@ export const GameScorePage: React.FC = () => {
                   id="Rating"
                   emptyIcon={
                     <StarBorderOutlinedIcon
-                      style={{ color: "grey"  }}
+                      style={{ color: "grey" }}
                       fontSize="inherit"
                     />
                   }
@@ -211,7 +233,7 @@ export const GameScorePage: React.FC = () => {
                   id="Rating"
                   emptyIcon={
                     <StarBorderOutlinedIcon
-                      style={{  color: "grey" }}
+                      style={{ color: "grey" }}
                       fontSize="inherit"
                     />
                   }
@@ -221,6 +243,239 @@ export const GameScorePage: React.FC = () => {
 
             <div className="min-w-full flex justify-center">
               <p className="text-8xl">{game.avg_final_score.toFixed(1)}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className="hero flex-col content-center justify-evenly">
+        <div className="hero-content flex-col box-content min-w-96 max-w-screen">
+          <h1 className="text-2xl font-bold mt-10 mobile-game-score-text">
+            {game.name}
+          </h1>
+          <div className="hero-content flex-col lg:flex-row">
+            <img src={game.img} className=" mobile-game-score-image" />
+            <div className="divider lg:divider-horizontal" />
+            <div className="mobile-game-score-container">
+              <p className="text-md font-bold mobile-game-score-text">
+                {game.description}
+              </p>
+            </div>
+          </div>{" "}
+          <div className="divider"></div>
+          <div className="hero-content flex-col  w-full ">
+            <img src={game.alt_img} className="mobile-game-score-image " />
+            <div className="divider lg:divider-horizontal" />
+            <div className="flex-col mobile-game-score-text">
+              <div className="flex justify-evenly max-w-screen">
+                <div className="flex-col">
+                  <h3 className="text-md font-bold ">Genre(s)</h3>
+                  <div className="flex-col mb-4">
+                    {game.genres.map((genre) => {
+                      return (
+                        <h3 key={genre.name} className="text-sm font-bold">
+                          {genre.name}
+                        </h3>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div className="divider"></div>
+                <div className="flex-col">
+                  <h3 className="text-md font-bold ">Platform(s)</h3>
+                  <div className="flex-col mb-4">
+                    {game.platforms.map((platform) => {
+                      return (
+                        <h3
+                          key={platform.platform.name}
+                          className="text-sm font-bold"
+                        >
+                          {platform.platform.name}
+                        </h3>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-evenly max-w-screen">
+                <div className="flex-col">
+                  <h3 className="text-md font-bold">Age Rating</h3>
+                  <div className="flex mb-4">
+                    <h3 className="text-sm font-bold w-full">
+                      {game.esrb_rating === null ? (
+                        <p>Unknown</p>
+                      ) : (
+                        game.esrb_rating.name
+                      )}
+                    </h3>
+                  </div>
+                </div>
+                <div className="divider"></div>
+                <div className="flex-col">
+                  <h3 className="text-md font-bold">Developer(s)</h3>
+                  <div className="flex-col mb-4">
+                    {game.developers.map((developer) => {
+                      return (
+                        <h3 key={developer.name} className="text-sm font-bold">
+                          {developer.name}
+                        </h3>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-evenly max-w-screen">
+                <div className="flex-col">
+                  <h3 className="text-md font-bold">Metacritic</h3>
+                  <div className="flex mb-4">
+                    <h3 className="text-sm font-bold w-full">
+                      {game.metacritic}
+                    </h3>
+                  </div>
+                </div>
+                <div className="divider"></div>
+                <div className="flex-col">
+                  <h3 className="text-md font-bold">Release Date</h3>
+
+                  <div className="flex mb-4">
+                    <h3 className="text-sm font-bold w-full">
+                      {game.released}
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="divider lg:divider-horizontal" />
+          <div className=" text-lg font-bold max-w-screen min-w-screen">
+            <div className="flex-col min-w-screen ">
+              <div className="mobile-stat-pairs">
+                <div className="stat">
+                  <div className="stat-title ">Gameplay</div>
+                  <div className="stat-value">
+                    <Rating
+                      name="read-only"
+                      value={game.avg_gameplay}
+                      precision={0.1}
+                      readOnly
+                      id="Rating"
+                      emptyIcon={
+                        <StarBorderOutlinedIcon
+                          style={{ color: "grey" }}
+                          fontSize="inherit"
+                        />
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="mobile-stat-pairs">
+                <div className="stat">
+                  <div className="stat-title">Narrative</div>
+                  <div className="stat-value">
+                    <Rating
+                      name="read-only"
+                      value={game.avg_narrative}
+                      precision={0.1}
+                      readOnly
+                      id="Rating"
+                      emptyIcon={
+                        <StarBorderOutlinedIcon
+                          style={{ color: "grey" }}
+                          fontSize="inherit"
+                        />
+                      }
+                    />
+                  </div>
+                </div>
+
+                <div className="stat">
+                  <div className="stat-title">Music</div>
+                  <div className="stat-value">
+                    <Rating
+                      name="read-only"
+                      value={game.avg_soundtrack}
+                      precision={0.1}
+                      readOnly
+                      id="Rating"
+                      emptyIcon={
+                        <StarBorderOutlinedIcon
+                          style={{ color: "grey" }}
+                          fontSize="inherit"
+                        />
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="mobile-stat-pairs">
+                <div className="stat">
+                  <div className="stat-title">Art Direction</div>
+                  <div className="stat-value">
+                    <Rating
+                      name="read-only"
+                      value={game.avg_art_direction}
+                      precision={0.1}
+                      readOnly
+                      id="Rating"
+                      emptyIcon={
+                        <StarBorderOutlinedIcon
+                          style={{ color: "grey" }}
+                          fontSize="inherit"
+                        />
+                      }
+                    />
+                  </div>
+                </div>
+
+                <div className="stat">
+                  <div className="stat-title">Enjoyment</div>
+                  <div className="stat-value">
+                    <Rating
+                      name="read-only"
+                      value={game.avg_enjoyment}
+                      precision={0.1}
+                      readOnly
+                      id="Rating"
+                      emptyIcon={
+                        <StarBorderOutlinedIcon
+                          style={{ color: "grey" }}
+                          fontSize="inherit"
+                        />
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+<div className="mobile-stat-pairs">
+  
+                <div className="stat">
+                  <div className="stat-title">Final Score</div>
+                  <div className="stat-value">
+                    <Rating
+                      name="read-only"
+                      value={game.avg_final_score}
+                      precision={0.1}
+                      readOnly
+                      size="large"
+                      id="Rating"
+                      emptyIcon={
+                        <StarBorderOutlinedIcon
+                          style={{ color: "grey" }}
+                          fontSize="inherit"
+                        />
+                      }
+                    />
+                  </div>
+                </div>
+</div>
+
+              <div className="min-w-full flex justify-center">
+                <p className="text-8xl">{game.avg_final_score.toFixed(1)}</p>
+              </div>
+
             </div>
           </div>
         </div>
