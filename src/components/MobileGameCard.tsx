@@ -1,7 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { checkFirestoreGames, getSingleGame } from "../utils/gamesApi";
 
-const MobileGameCard: React.FC = ({ game, setSelectedGame, setIsGameAdded }) => {
+const MobileGameCard: React.FC = ({
+  game,
+  setSelectedGame,
+  setIsGameAdded,
+}) => {
   const navigate = useNavigate();
   const handleCardClick = async () => {
     const gameAdded = await checkFirestoreGames(game.id);
