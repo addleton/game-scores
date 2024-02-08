@@ -45,3 +45,17 @@ export const getRandomGames = (games, count: number) => {
   return randomGames;
 };
 
+export const resizeFunction = (setScreenSize) => {
+  const handleResize = async () => {
+    if (window.innerWidth <= 767) {
+      await setScreenSize("mobile");
+    } else {
+      await setScreenSize("desktop");
+    }
+  };
+  handleResize();
+  window.addEventListener("resize", handleResize);
+  return () => {
+    window.removeEventListener("resize", handleResize);
+  };
+};

@@ -2,10 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import { signOutUser } from "../utils/gamesApi";
+import { resizeFunction } from "../utils/utils";
 
 const Nav = () => {
   const navigate = useNavigate();
-  const [screenSize, setScreenSize] = useState("desktop");
+  const [screenSize, setScreenSize] = useState(null);
   const { user, setUser } = useContext(UserContext);
 
   const handleSignOut = async () => {
@@ -15,21 +16,15 @@ const Nav = () => {
   };
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 767) {
-        setScreenSize("mobile");
-      } else {
-        setScreenSize("desktop");
-      }
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
+    const resize = resizeFunction(setScreenSize);
     return () => {
-      window.removeEventListener("resize", handleResize);
+      resize();
     };
   }, []);
 
-  if (screenSize === "desktop") {
+  if (!screenSize) {
+    return null;
+  } else if (screenSize === "desktop") {
     return (
       <nav>
         <div className="navbar border-b border-secondary">
@@ -137,7 +132,7 @@ const Nav = () => {
             </div>
           </div>
           <div className="navbar-center">
-            <a className="btn btn-ghost text-xl">myGameScores</a>
+            <p className=" text-xl font-bold">myGameScores</p>
           </div>
           <div className="navbar-end">
             {user === null || user === undefined ? null : (

@@ -5,13 +5,14 @@ import { fetchAndStoreGames } from "../utils/gamesApi";
 
 import CarouselCard from "./CarouselCard";
 import MobileRecommendedCard from "./MobileRecommendedCard";
+import { resizeFunction } from "../utils/utils";
 
 const Home = ({
   homepageSearchInput,
   setHomepageSearchInput,
   setSelectedGame,
 }) => {
-  const [screenSize, setScreenSize] = useState("desktop");
+  const [screenSize, setScreenSize] = useState(null);
   const [gameplayGames, setGameplayGames] = useState(null);
   const [narrativeGames, setNarrativeGames] = useState(null);
   const [musicGames, setMusicGames] = useState(null);
@@ -48,21 +49,19 @@ const Home = ({
   }, [gotAllGames, user]);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 767) {
-        setScreenSize("mobile");
-      } else {
-        setScreenSize("desktop");
-      }
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
+    const resize = resizeFunction(setScreenSize);
     return () => {
-      window.removeEventListener("resize", handleResize);
+      resize();
     };
   }, []);
 
-  if (screenSize === "desktop") {
+  if (!screenSize) {
+    return (
+      <div className="hero min-h-screen">
+        <span className="loading loading-spinner text-primary"></span>
+      </div>
+    );
+  } else if (screenSize === "desktop") {
     if (isLoading) {
       return (
         <div className="hero min-h-screen">
@@ -222,7 +221,9 @@ const Home = ({
                   </h2>
                   <div className="mobile-home-games ">
                     {gameplayGames.slice(0, 1).map((game) => {
-                      return <MobileRecommendedCard key={game.id} game={game} />;
+                      return (
+                        <MobileRecommendedCard key={game.id} game={game} />
+                      );
                     })}
                   </div>
                 </div>
@@ -233,7 +234,9 @@ const Home = ({
                   </h2>
                   <div className="mobile-home-games ">
                     {narrativeGames.slice(0, 1).map((game) => {
-                      return <MobileRecommendedCard key={game.id} game={game} />;
+                      return (
+                        <MobileRecommendedCard key={game.id} game={game} />
+                      );
                     })}
                   </div>
                 </div>
@@ -244,7 +247,9 @@ const Home = ({
                   </h2>
                   <div className="mobile-home-games ">
                     {musicGames.slice(0, 1).map((game) => {
-                      return <MobileRecommendedCard key={game.id} game={game} />;
+                      return (
+                        <MobileRecommendedCard key={game.id} game={game} />
+                      );
                     })}
                   </div>
                 </div>
@@ -255,7 +260,9 @@ const Home = ({
                   </h2>
                   <div className="mobile-home-games">
                     {artGames.slice(0, 1).map((game) => {
-                      return <MobileRecommendedCard key={game.id} game={game} />;
+                      return (
+                        <MobileRecommendedCard key={game.id} game={game} />
+                      );
                     })}
                   </div>
                 </div>
