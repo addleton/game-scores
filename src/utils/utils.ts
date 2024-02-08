@@ -44,3 +44,4 @@ export const getRandomGames = (games, count: number) => {
   }
   return randomGames;
 };
+

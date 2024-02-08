@@ -382,3 +382,27 @@ export const writeGamesToLocal = async (games) => {
     console.error("Error storing games locally:", err);
   }
 };
+
+export const fetchAndStoreGames = async () => {
+  let gameplayData = await getCachedGames("gameplay");
+  let narrativeData = await getCachedGames("narrative");
+  let musicData = await getCachedGames("soundtrack");
+  let artData = await getCachedGames("art_direction");
+  if (!gameplayData || !narrativeData || !musicData || !artData) {
+    await getAndStoreGames("gameplay");
+    await getAndStoreGames("narrative");
+    await getAndStoreGames("soundtrack");
+    await getAndStoreGames("art_direction");
+  }
+  gameplayData = await getCachedGames("gameplay");
+  narrativeData = await getCachedGames("narrative");
+  musicData = await getCachedGames("soundtrack");
+  artData = await getCachedGames("art_direction");
+
+  return {
+    gameplayGames: gameplayData,
+    narrativeGames: narrativeData,
+    musicGames: musicData,
+    artGames: artData,
+  };
+};

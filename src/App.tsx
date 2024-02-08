@@ -37,7 +37,6 @@ function App() {
     setIsLoading(false);
     return () => unsubscribe();
   }, [selectedGame]);
-  console.log(selectedGame);
   if (isLoading) {
     return null;
   } else {
