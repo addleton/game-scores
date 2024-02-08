@@ -144,3 +144,8 @@ html {
   height: 100vh;
   display: flex;
 }
+
+
+::placeholder {
+  text-align: center;
+}
