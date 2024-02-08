@@ -17,7 +17,7 @@ const MobileGameCard: React.FC = ({ game, setSelectedGame, setIsGameAdded }) => 
 
   return (
     <div
-      className="card w-full max-h-64 bg-base-100 shadow-xl image-full border-t border-b border-secondary"
+      className="card w-full max-h-64 min-h-64 min shadow-xl image-full border-t border-b border-secondary"
       onClick={handleCardClick}
     >
       <figure>
