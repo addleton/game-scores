@@ -1,4 +1,5 @@
 import {
+  Timestamp,
   addDoc,
   collection,
   doc,
@@ -6,6 +7,7 @@ import {
   getDocs,
   orderBy,
   query,
+  serverTimestamp,
   setDoc,
   updateDoc,
   where,
@@ -147,7 +149,7 @@ export const getSingleGame = async (id: number) => {
 
 export const addGame = async (
   game,
-  userId: string,
+  user: any,
   gameplay: number,
   narrative: number,
   soundtrack: number,
@@ -186,7 +188,8 @@ export const addGame = async (
     });
     const docId = docRef.id;
     await addDoc(collection(db, "userScores"), {
-      user_id: userId,
+      user_id: user.uid,
+      username: user.username,
       game_id: game.id,
       gameplay: gameplay,
       narrative: narrative,
@@ -194,6 +197,9 @@ export const addGame = async (
       art_direction: artDirection,
       enjoyment: enjoyment,
       final_score: finalScore,
+      name: game.name,
+      background_image: game.background_image,
+      timestamp: serverTimestamp(),
     });
     return true;
   } catch (err) {
@@ -217,7 +223,7 @@ export const getGameFromFirestore = async (gameId: string) => {
 };
 
 export const addScore = async (
-  userId: string,
+  user: any,
   gameplay: number,
   narrative: number,
   soundtrack: number,
@@ -234,17 +240,28 @@ export const addScore = async (
   );
 
   try {
-    await addDoc(collection(db, "userScores"), {
-      user_id: userId,
-      game_id: id,
-      gameplay: gameplay,
-      narrative: narrative,
-      soundtrack: soundtrack,
-      art_direction: artDirection,
-      enjoyment: enjoyment,
-      final_score: finalScore,
+    const querySnapshot1 = await getDocs(
+      query(collection(db, "games"), where("id", "==", id))
+    );
+    const [game] = querySnapshot1.docs.map((doc) => {
+      return { id: doc.id, ...doc.data() };
     });
-    const querySnapshot = await getDocs(
+
+    await addDoc(collection(db, "userScores"), {
+      user_id: user.uid,
+      username: user.username,
+      game_id: Number(id),
+      gameplay: Number(gameplay),
+      narrative: Number(narrative),
+      soundtrack: Number(soundtrack),
+      art_direction: Number(artDirection),
+      enjoyment: Number(enjoyment),
+      final_score: finalScore,
+      name: game.name,
+      background_image: game.img,
+      timestamp: serverTimestamp(),
+    });
+    const querySnapshot2 = await getDocs(
       query(collection(db, "userScores"), where("game_id", "==", id))
     );
 
@@ -256,12 +273,11 @@ export const addScore = async (
     let currFinalScore = 0;
     let docCount = 0;
 
-    const allUserScores = querySnapshot.docs.map((doc) => {
+    const allUserScores = querySnapshot2.docs.map((doc) => {
       return { id: doc.id, ...doc.data() };
     });
 
     allUserScores.forEach((userScore) => {
-      console.log(userScore);
       currGameplay += userScore.gameplay;
       currNarrative += userScore.narrative;
       currSoundtrack += userScore.soundtrack;
@@ -284,12 +300,12 @@ export const addScore = async (
     const gameDoc = gameDocs.docs[0].ref;
 
     await updateDoc(gameDoc, {
-      avg_gameplay: newGameplay.toFixed(1),
-      avg_narrative: newNarrative.toFixed(1),
-      avg_soundtrack: newSoundtrack.toFixed(1),
-      avg_art_direction: newArtDirection.toFixed(1),
-      avg_enjoyment: newEnjoyment.toFixed(1),
-      avg_final_score: newFinalScore.toFixed(1),
+      avg_gameplay: Number(newGameplay.toFixed(1)),
+      avg_narrative: Number(newNarrative.toFixed(1)),
+      avg_soundtrack: Number(newSoundtrack.toFixed(1)),
+      avg_art_direction: Number(newArtDirection.toFixed(1)),
+      avg_enjoyment: Number(newEnjoyment.toFixed(1)),
+      avg_final_score: Number(newFinalScore.toFixed(1)),
       total_scores: docCount,
     });
 
@@ -405,4 +421,18 @@ export const fetchAndStoreGames = async () => {
     musicGames: musicData,
     artGames: artData,
   };
+};
+
+export const getUserGames = async (username: string) => {
+  try {
+    const querySnapshot = await getDocs(
+      query(collection(db, "userScores"), where("username", "==", username))
+    );
+    const userData = querySnapshot.docs.map((doc) => {
+      return { id: doc.id, ...doc.data() };
+    });
+    return userData;
+  } catch (err) {
+    console.error("Error getting user games:", err);
+  }
 };

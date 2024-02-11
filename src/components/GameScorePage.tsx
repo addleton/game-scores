@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { checkUserScored, getGameFromFirestore } from "../utils/gamesApi";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
@@ -13,6 +13,11 @@ export const GameScorePage: React.FC = () => {
   const { user } = useContext(UserContext);
   const { id } = useParams();
   const [screenSize, setScreenSize] = useState(null);
+  const navigate = useNavigate()
+
+  const handleAddScore = () => {
+    navigate(`add-score`)
+  }
 
   useEffect(() => {
     const fetchGame = async () => {
@@ -449,8 +454,7 @@ export const GameScorePage: React.FC = () => {
                   </div>
                 </div>
               </div>
-<div className="mobile-stat-pairs">
-  
+              <div className="mobile-stat-pairs">
                 <div className="stat">
                   <div className="stat-title">Final Score</div>
                   <div className="stat-value">
@@ -470,14 +474,16 @@ export const GameScorePage: React.FC = () => {
                     />
                   </div>
                 </div>
-</div>
+              </div>
 
               <div className="min-w-full flex justify-center">
                 <p className="text-8xl">{game.avg_final_score.toFixed(1)}</p>
               </div>
-
             </div>
           </div>
+          <button onClick={()=> {
+            handleAddScore()
+          }} className="btn btn-outline">Add your own score</button>
         </div>
       </div>
     );

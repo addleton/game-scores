@@ -30,7 +30,7 @@ export const NotScoredPage: React.FC = ({ game }) => {
     ) {
       const res = await addGame(
         game,
-        user.uid,
+        user,
         Number(gameplayScore),
         Number(narrativeScore),
         Number(soundScore),
