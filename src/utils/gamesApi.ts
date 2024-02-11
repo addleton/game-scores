@@ -426,7 +426,11 @@ export const fetchAndStoreGames = async () => {
 export const getUserGames = async (username: string) => {
   try {
     const querySnapshot = await getDocs(
-      query(collection(db, "userScores"), where("username", "==", username))
+      query(
+        collection(db, "userScores"),
+        where("username", "==", username),
+        orderBy("timestamp", "desc")
+      )
     );
     const userData = querySnapshot.docs.map((doc) => {
       return { id: doc.id, ...doc.data() };

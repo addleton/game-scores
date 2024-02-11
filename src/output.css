@@ -3617,6 +3617,10 @@ html {
   min-height: 100vh;
 }
 
+.w-10\/12 {
+  width: 83.333333%;
+}
+
 .w-24 {
   width: 6rem;
 }

@@ -7,10 +7,9 @@ const UserGameCard: React.FC = ({ game }) => {
   const handleCardClick = async () => {
     navigate(`/games/${game.game_id}`);
   };
-
   return (
     <div
-      className="card lg:card-side shadow-xl user-game-card "
+      className="card lg:card-side shadow-xl user-game-card hover:scale-110 transition-transform"
       onClick={handleCardClick}
     >
       <figure>
@@ -21,7 +20,7 @@ const UserGameCard: React.FC = ({ game }) => {
         />
       </figure>
       <div className="card-body">
-        <h2 className="card-title self-center">{game.name}</h2>
+        <h2 className="card-title self-center user-card-title">{game.name}</h2>
         <div className="user-card-pairs">
           <div className="user-card-rating">
             <p>Gameplay</p>

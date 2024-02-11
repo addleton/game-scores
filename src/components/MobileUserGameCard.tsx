@@ -10,18 +10,18 @@ const MobileUserGameCard: React.FC = ({ game }) => {
 
   return (
     <div
-      className="card lg:card-side shadow-xl mobile-user-game-card "
+      className="card lg:card-side shadow-xl mobile-user-game-card"
       onClick={handleCardClick}
     >
       <figure>
         <img
-          className="mobile-user-card-image"
+          className=" mobile-user-card-image"
           src={game.background_image}
           alt={`Cover art for the video game ${game.name}`}
         />
       </figure>
       <div className="card-body">
-        <h2 className="card-title self-center">{game.name}</h2>
+        <h2 className="card-title self-center user-card-title">{game.name}</h2>
         <div className="user-card-pairs">
           <div className="user-card-rating">
             <p>Gameplay</p>

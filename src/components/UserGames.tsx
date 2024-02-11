@@ -1,14 +1,16 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getUserGames } from "../utils/gamesApi";
 import { useParams } from "react-router-dom";
-import UserGameCard from "./UserGameCard";
 import { resizeFunction } from "../utils/utils";
+import UserGameCard from "./UserGameCard";
 import MobileUserGameCard from "./MobileUserGameCard";
+import { UserContext } from "../context/UserContext";
 
 export const UserGames: React.FC = () => {
   const [userGames, setUserGames] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [screenSize, setScreenSize] = useState("desktop");
+  const { user } = useContext(UserContext);
 
   const { username } = useParams();
 
@@ -38,19 +40,35 @@ export const UserGames: React.FC = () => {
   } else if (screenSize === "mobile") {
     return (
       <div className="user-game-card-container">
+        {user.username === username ? (
+          <h1>Your game collection</h1>
+        ) : (
+          <h1>{username}'s game collection</h1>
+        )}
         {userGames.map((userGame) => {
-          return <UserGameCard key={userGame.id} game={userGame} />;
+          return (
+            <>
+              <MobileUserGameCard key={userGame.id} game={userGame} />
+              <div className="divider w-10/12 self-center"></div>
+            </>
+          );
         })}
       </div>
     );
   } else {
     return (
       <div className="container mx-auto user-game-card-container">
+        {user.username === username ? (
+          <h1 className="text-4xl font-bold mb-12">Your game collection</h1>
+        ) : (
+          <h1 className="text-4xl font-bold mb-12">{username}'s game collection</h1>
+        )}
+
         <div className="grid grid-cols-2 gap-10">
           {userGames === undefined
             ? null
             : userGames.map((game) => {
-                return <MobileUserGameCard game={game} key={game.id} />;
+                return <UserGameCard game={game} key={game.id} />;
               })}
         </div>
       </div>
