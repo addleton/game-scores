@@ -126,39 +126,51 @@ export const NotScoredPage: React.FC = ({ game }) => {
         {user !== null || user !== undefined ? (
           <div>
             <div className="hero-content flex-col   mt-10">
-              <h2 className="text-2xl mb-6 font-bold mobile-add-game-text">{game.name}</h2>
+              <h2 className="text-2xl mb-6 font-bold mobile-add-game-text">
+                {game.name}
+              </h2>
               <img
                 src={game.background_image}
                 className="mobile-add-game-image"
               />
               <div className="divider lg:divider-horizontal" />
               <div className="flex flex-col self-center">
-                <h3 className="text-lg font-bold mobile-add-game-text">Gameplay</h3>
+                <h3 className="text-lg font-bold mobile-add-game-text">
+                  Gameplay
+                </h3>
                 <div>
                   <Gameplay
                     gameplayScore={gameplayScore}
                     setGameplayScore={setGameplayScore}
                   />
                 </div>
-                <h3 className="text-lg font-bold mobile-add-game-text">Narrative</h3>
+                <h3 className="text-lg font-bold mobile-add-game-text">
+                  Narrative
+                </h3>
                 <div>
                   <Narrative
                     narrativeScore={narrativeScore}
                     setNarrativeScore={setNarrativeScore}
                   />
                 </div>
-                <h3 className="text-lg font-bold mobile-add-game-text">Soundtrack / Score</h3>
+                <h3 className="text-lg font-bold mobile-add-game-text">
+                  Soundtrack / Score
+                </h3>
                 <div>
                   <Soundtrack
                     soundScore={soundScore}
                     setSoundScore={setSoundScore}
                   />
                 </div>
-                <h3 className="text-lg font-bold mobile-add-game-text">Art Direction</h3>
+                <h3 className="text-lg font-bold mobile-add-game-text">
+                  Art Direction
+                </h3>
                 <div>
                   <ArtDirection artScore={artScore} setArtScore={setArtScore} />
                 </div>
-                <h3 className="text-lg font-bold mobile-add-game-text">Personal Enjoyment</h3>
+                <h3 className="text-lg font-bold mobile-add-game-text">
+                  Personal Enjoyment
+                </h3>
                 <Enjoyment
                   enjoymentScore={enjoymentScore}
                   setEnjoymentScore={setEnjoymentScore}

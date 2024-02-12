@@ -321,7 +321,7 @@ export const checkUserScored = async (userId: string, gameId: string) => {
       query(
         collection(db, "userScores"),
         where("user_id", "==", userId),
-        where("game_id", "==", gameId)
+        where("game_id", "==", Number(gameId))
       )
     );
     const data = querySnapshot.docs.map((doc) => {
