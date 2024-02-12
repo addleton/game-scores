@@ -110,7 +110,12 @@ export const AddScorePage: React.FC = () => {
                   enjoymentScore={enjoymentScore}
                   setEnjoymentScore={setEnjoymentScore}
                 />
-                <button className="btn mt-12" onClick={handleAddGame}>
+                <button
+                  className="btn mt-12"
+                  onClick={() => {
+                    handleAddGame();
+                  }}
+                >
                   Submit
                 </button>
               </div>
@@ -177,7 +182,12 @@ export const AddScorePage: React.FC = () => {
                   enjoymentScore={enjoymentScore}
                   setEnjoymentScore={setEnjoymentScore}
                 />
-                <button className="btn mt-12" onClick={handleAddGame}>
+                <button
+                  className="btn mt-12"
+                  onClick={() => {
+                    handleAddGame();
+                  }}
+                >
                   Submit
                 </button>
               </div>
