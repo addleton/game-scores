@@ -71,7 +71,7 @@ const Nav = () => {
                     </Link>
                   </li>
                   <li>
-                    <a>My Games</a>
+                    <Link to={`/${user.username}/games`}>My Games</Link>
                   </li>
                   <li>
                     <button
@@ -166,7 +166,7 @@ const Nav = () => {
                     </Link>
                   </li>
                   <li>
-                    <a>My Games</a>
+                    <Link to={`/${user.username}/games`}>My Games</Link>
                   </li>
                   <li>
                     <button
