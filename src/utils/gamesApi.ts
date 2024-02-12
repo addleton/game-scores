@@ -1,5 +1,4 @@
 import {
-  Timestamp,
   addDoc,
   collection,
   doc,
@@ -316,14 +315,19 @@ export const addScore = async (
   }
 };
 
-export const checkUserScored = async (id: string) => {
+export const checkUserScored = async (userId: string, gameId: string) => {
   try {
     const querySnapshot = await getDocs(
-      query(collection(db, "userScores"), where("user_id", "==", id))
+      query(
+        collection(db, "userScores"),
+        where("user_id", "==", userId),
+        where("game_id", "==", gameId)
+      )
     );
     const data = querySnapshot.docs.map((doc) => {
       return { id: doc.id, ...doc.data() };
     });
+    console.log(data);
     if (data.length > 0) {
       return true;
     } else {

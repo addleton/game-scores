@@ -13,18 +13,17 @@ export const GameScorePage: React.FC = () => {
   const { user } = useContext(UserContext);
   const { id } = useParams();
   const [screenSize, setScreenSize] = useState(null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleAddScore = () => {
-    navigate(`add-score`)
-  }
-
+    navigate(`add-score`);
+  };
   useEffect(() => {
     const fetchGame = async () => {
       try {
         const gameData = await getGameFromFirestore(id);
         if (user) {
-          const res = await checkUserScored(user.uid);
+          const res = await checkUserScored(user.uid, id);
           setHasScored(res);
         }
         setGame(gameData);
@@ -208,7 +207,7 @@ export const GameScorePage: React.FC = () => {
                 />
               </div>
             </div>
-            <div className="stat">
+            <div className="stat mb-12">
               <div className="stat-title">Enjoyment</div>
               <div className="stat-value">
                 <Rating
@@ -245,10 +244,21 @@ export const GameScorePage: React.FC = () => {
                 />
               </div>
             </div>
-
-            <div className="min-w-full flex justify-center">
+            <div className="min-w-full flex justify-center mb-12">
               <p className="text-8xl">{game.avg_final_score.toFixed(1)}</p>
             </div>
+            {hasScored ? null : (
+              <div className="min-w-full flex justify-center">
+                <button
+                  onClick={() => {
+                    handleAddScore();
+                  }}
+                  className="btn btn-outline"
+                >
+                  Score this game
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -481,9 +491,16 @@ export const GameScorePage: React.FC = () => {
               </div>
             </div>
           </div>
-          <button onClick={()=> {
-            handleAddScore()
-          }} className="btn btn-outline">Add your own score</button>
+          {hasScored ? null : (
+            <button
+              onClick={() => {
+                handleAddScore();
+              }}
+              className="btn btn-outline"
+            >
+              Add your own score
+            </button>
+          )}
         </div>
       </div>
     );

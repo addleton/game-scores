@@ -11,7 +11,7 @@ const Nav = () => {
 
   const handleSignOut = async () => {
     await signOutUser();
-    setUser(undefined);
+    await setUser(undefined);
     navigate("/");
   };
 
