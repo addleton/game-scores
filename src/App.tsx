@@ -38,54 +38,51 @@ function App() {
     setIsLoading(false);
     return () => unsubscribe();
   }, [selectedGame]);
-  if (isLoading) {
-    return null;
-  } else {
-    return (
-      <>
-        <Header />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Home
-                homepageSearchInput={homepageSearchInput}
-                setHomepageSearchInput={setHomepageSearchInput}
-                setSelectedGame={setSelectedGame}
-              />
-            }
-          />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/games" element={<Games />} />
-          <Route
-            path="/game-search"
-            element={
-              <GameSearch
-                setSelectedGame={setSelectedGame}
-                selectedGame={selectedGame}
-                homepageSearchInput={homepageSearchInput}
-              />
-            }
-          />
-          <Route
-            path="/games/:id"
-            element={<GameScorePage id={selectedGameId} />}
-          />
-          <Route
-            path="/games/add-game"
-            element={<NotScoredPage game={selectedGame} />}
-          />
-          <Route
-            path="/games/:id/add-score"
-            element={<AddScorePage game={selectedGame} />}
-          />
-          <Route path="/:username/games" element={<UserGames />} />
-          <Route path="/profile" element={<UserProfile />} />
-        </Routes>
-      </>
-    );
-  }
+
+  return (
+    <>
+      <Header />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Home
+              homepageSearchInput={homepageSearchInput}
+              setHomepageSearchInput={setHomepageSearchInput}
+              setSelectedGame={setSelectedGame}
+            />
+          }
+        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/games" element={<Games />} />
+        <Route
+          path="/game-search"
+          element={
+            <GameSearch
+              setSelectedGame={setSelectedGame}
+              selectedGame={selectedGame}
+              homepageSearchInput={homepageSearchInput}
+            />
+          }
+        />
+        <Route
+          path="/games/:id"
+          element={<GameScorePage id={selectedGameId} />}
+        />
+        <Route
+          path="/games/add-game"
+          element={<NotScoredPage game={selectedGame} />}
+        />
+        <Route
+          path="/games/:id/add-score"
+          element={<AddScorePage game={selectedGame} />}
+        />
+        <Route path="/:username/games" element={<UserGames />} />
+        <Route path="/profile" element={<UserProfile />} />
+      </Routes>
+    </>
+  );
 }
 
 export default App;

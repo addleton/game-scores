@@ -18,9 +18,10 @@ const Home = ({
   const [musicGames, setMusicGames] = useState(null);
   const [artGames, setArtGames] = useState(null);
   const [gotAllGames, setGotAllGames] = useState(false);
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  console.log(user);
 
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
@@ -49,6 +50,12 @@ const Home = ({
   }, [gotAllGames, user]);
 
   useEffect(() => {
+    if (user === undefined) {
+      setUser(null);
+    }
+  }, []);
+
+  useEffect(() => {
     const resize = resizeFunction(setScreenSize);
     return () => {
       resize();
@@ -71,7 +78,7 @@ const Home = ({
     } else {
       return (
         <div className="hero min-h-screen max-w-screen min-w-screen">
-          {user ? (
+          {user !== undefined || user !== null ? (
             <div className="home-page-container">
               <div className="hero min-h-screen bg-primary">
                 <div className="hero-content text-center text-neutral-content">
@@ -195,8 +202,10 @@ const Home = ({
                       enthusiast, this is your space to rate and review the
                       games you've played.
                     </p>
-                    <form onSubmit={handleSearchSubmit}
-                    className="container mx-auto flex items-center justify-center mt-16 mb-8">
+                    <form
+                      onSubmit={handleSearchSubmit}
+                      className="container mx-auto flex items-center justify-center mt-16 mb-8"
+                    >
                       <div className="form-control w-3/6">
                         <input
                           type="text"
