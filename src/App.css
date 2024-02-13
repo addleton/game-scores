@@ -140,9 +140,11 @@ html {
 }
 
 .mobile-logged-out-homepage-container {
-  width: 100vw;
+  width: 90vw;
   height: 100vh;
   display: flex;
+  justify-self: center;
+  align-self: center;
 }
 
 ::placeholder {
@@ -218,5 +220,3 @@ html {
   max-width: 300px;
   text-align: center;
 }
-
-
