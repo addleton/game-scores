@@ -220,3 +220,7 @@ html {
   max-width: 300px;
   text-align: center;
 }
+
+.profile-label-text {
+  margin-right: 1rem;
+}

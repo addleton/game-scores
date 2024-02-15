@@ -16,6 +16,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { getSignedInUserInfo } from "./utils/gamesApi";
 import { auth } from "../firebaseConfig";
 import { UserGames } from "./components/UserGames";
+import { Footer } from "./components/Footer";
 function App() {
   const [selectedGame, setSelectedGame] = useState(null);
   const [selectedGameId, setSelectedGameId] = useState(null);
@@ -79,8 +80,8 @@ function App() {
           element={<AddScorePage game={selectedGame} />}
         />
         <Route path="/:username/games" element={<UserGames />} />
-        <Route path="/profile" element={<UserProfile />} />
       </Routes>
+      <Footer />
     </>
   );
 }

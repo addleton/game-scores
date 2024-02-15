@@ -15,6 +15,7 @@ import { db } from "../../firebaseConfig";
 import {
   createUserWithEmailAndPassword,
   getAuth,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
@@ -443,4 +444,17 @@ export const getUserGames = async (username: string) => {
   } catch (err) {
     console.error("Error getting user games:", err);
   }
+};
+
+export const getUserEmail = (): Promise<string | null> => {
+  return new Promise((resolve) => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user: User | null) => {
+      if (user) {
+        resolve(user.email);
+      } else {
+        resolve(null);
+      }
+    });
+  });
 };
