@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Header from "./components/Header";
+import Header from "./components/Header_Footer/Header";
 import Home from "./components/Homepage/Home";
 import { Games } from "./components/Games";
 import { SignUp } from "./components/SignUp";
@@ -16,7 +16,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { getSignedInUserInfo } from "./utils/gamesApi";
 import { auth } from "../firebaseConfig";
 import { UserGames } from "./components/UserGames";
-import { Footer } from "./components/Footer";
+import { Footer } from "./components/Header_Footer/Footer";
 function App() {
   const [selectedGame, setSelectedGame] = useState(null);
   const [selectedGameId, setSelectedGameId] = useState(null);

@@ -1,13 +1,13 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
-import { signOutUser } from "../utils/gamesApi";
-import { resizeFunction } from "../utils/utils";
+import { useUserContext } from "../../context/UserContext";
+import { signOutUser } from "../../utils/gamesApi";
+import { resizeFunction } from "../../utils/utils";
 
 const Nav = () => {
   const navigate = useNavigate();
   const [screenSize, setScreenSize] = useState(null);
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser } = useUserContext();
 
   const handleSignOut = async () => {
     await signOutUser();
