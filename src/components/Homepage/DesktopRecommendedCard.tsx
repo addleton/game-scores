@@ -1,13 +1,13 @@
 import { Rating } from "@mui/material";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import { useNavigate } from "react-router-dom";
+import { HomepageGameCardProps } from "../../types/Types";
 
-const CarouselCard: React.FC = ({ game }) => {
+const DesktopRecommendedCard: React.FC<HomepageGameCardProps> = ({ game }) => {
   const navigate = useNavigate();
   const handleCardClick = async () => {
     navigate(`/games/${game.id}`);
   };
-
   return (
     <div
       className="card max-w-full h-40  image-full hover:scale-110 transition-transform border border-secondary"
@@ -38,4 +38,4 @@ const CarouselCard: React.FC = ({ game }) => {
   );
 };
 
-export default CarouselCard;
+export default DesktopRecommendedCard;

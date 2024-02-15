@@ -1,11 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
-import { fetchAndStoreGames } from "../utils/gamesApi";
-
-import CarouselCard from "./CarouselCard";
+import { UserContext } from "../../context/UserContext";
+import { fetchAndStoreGames } from "../../utils/gamesApi";
 import MobileRecommendedCard from "./MobileRecommendedCard";
-import { resizeFunction } from "../utils/utils";
+import { resizeFunction } from "../../utils/utils";
+import DesktopRecommendedCard from "./DesktopRecommendedCard";
 
 const Home = ({
   homepageSearchInput,
@@ -119,7 +118,9 @@ const Home = ({
                   </h2>
                   <div className="home-games flex">
                     {gameplayGames.map((game) => {
-                      return <CarouselCard key={game.id} game={game} />;
+                      return (
+                        <DesktopRecommendedCard key={game.id} game={game} />
+                      );
                     })}
                   </div>
                 </div>
@@ -130,7 +131,9 @@ const Home = ({
                   </h2>
                   <div className="home-games flex">
                     {narrativeGames.map((game) => {
-                      return <CarouselCard key={game.id} game={game} />;
+                      return (
+                        <DesktopRecommendedCard key={game.id} game={game} />
+                      );
                     })}
                   </div>
                 </div>
@@ -141,7 +144,9 @@ const Home = ({
                   </h2>
                   <div className="home-games flex">
                     {musicGames.map((game) => {
-                      return <CarouselCard key={game.id} game={game} />;
+                      return (
+                        <DesktopRecommendedCard key={game.id} game={game} />
+                      );
                     })}
                   </div>
                 </div>
@@ -152,7 +157,9 @@ const Home = ({
                   </h2>
                   <div className="home-games flex">
                     {artGames.map((game) => {
-                      return <CarouselCard key={game.id} game={game} />;
+                      return (
+                        <DesktopRecommendedCard key={game.id} game={game} />
+                      );
                     })}
                   </div>
                 </div>

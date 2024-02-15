@@ -1,8 +1,9 @@
 import { Rating } from "@mui/material";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import { useNavigate } from "react-router-dom";
+import { HomepageGameCardProps } from "../../types/Types";
 
-const MobileRecommendedCard: React.FC = ({ game }) => {
+const MobileRecommendedCard: React.FC<HomepageGameCardProps> = ({ game }) => {
   const navigate = useNavigate();
   const handleCardClick = async () => {
     navigate(`/games/${game.id}`);
@@ -14,7 +15,11 @@ const MobileRecommendedCard: React.FC = ({ game }) => {
       onClick={handleCardClick}
     >
       <figure>
-        <img className="card-image min-w-screen max-w-screen" src={game.img} alt="Shoes" />
+        <img
+          className="card-image min-w-screen max-w-screen"
+          src={game.img}
+          alt="Shoes"
+        />
       </figure>
       <div className="card-body w-screen max-w-screen">
         <p>{""}</p>
