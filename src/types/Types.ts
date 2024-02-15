@@ -75,3 +75,16 @@ interface PublisherObj {
 export interface HomepageGameCardProps {
   game: HomepageGame;
 }
+
+export interface User {
+  first_name: string;
+  img_url: string;
+  last_name: string;
+  uid: string;
+  username: string;
+}
+
+export interface UserContextProps {
+  user: User | undefined;
+  setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
+}
