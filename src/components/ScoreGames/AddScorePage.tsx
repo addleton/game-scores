@@ -13,11 +13,11 @@ import { FirebaseGame } from "../../types/Types";
 export const AddScorePage: React.FC = () => {
   const [game, setGame] = useState<FirebaseGame | null | undefined>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [gameplayScore, setGameplayScore] = useState<number>(0);
-  const [narrativeScore, setNarrativeScore] = useState<number>(0);
-  const [soundScore, setSoundScore] = useState<number>(0);
-  const [artScore, setArtScore] = useState<number>(0);
-  const [enjoymentScore, setEnjoymentScore] = useState<number>(0);
+  const [gameplayScore, setGameplayScore] = useState<string>('0');
+  const [narrativeScore, setNarrativeScore] = useState<string>('0');
+  const [soundScore, setSoundScore] = useState<string>('0');
+  const [artScore, setArtScore] = useState<string>('0');
+  const [enjoymentScore, setEnjoymentScore] = useState<string>('0');
   const { user } = useUserContext();
   const [screenSize, setScreenSize] = useState<string>("desktop");
   const { id } = useParams<string>();

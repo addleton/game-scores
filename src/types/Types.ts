@@ -73,7 +73,7 @@ interface PublisherObj {
 }
 
 export interface HomepageGameCardProps {
-  game: HomepageGame;
+  game: FirebaseGame;
 }
 
 export interface User {
@@ -120,4 +120,33 @@ export interface GameCardProps {
   game: RawgGame;
   setSelectedGame: React.Dispatch<React.SetStateAction<RawgGame | null>>;
   setIsGameAdded: React.Dispatch<React.SetStateAction<boolean | null>>;
+}
+
+export interface GameplayRatingProps {
+  gameplayScore: string;
+  setGameplayScore: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface NarrativeRatingProps {
+  narrativeScore: string;
+  setNarrativeScore: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface SoundRatingProps {
+  soundScore: string;
+  setSoundScore: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface ArtRatingProps {
+  artScore: string;
+  setArtScore: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface EnjoymentRatingProps {
+  enjoymentScore: string;
+  setEnjoymentScore: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface NotScoredProps {
+  game: RawgGame;
 }

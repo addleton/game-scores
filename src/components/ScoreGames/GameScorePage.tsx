@@ -1,18 +1,19 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { checkUserScored, getGameFromFirestore } from "../../utils/gamesApi";
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../context/UserContext";
+import { useEffect, useState } from "react";
+import { useUserContext } from "../../context/UserContext";
 import { Rating } from "@mui/material";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import { resizeFunction } from "../../utils/utils";
+import { FirebaseGame } from "../../types/Types";
 
 export const GameScorePage: React.FC = () => {
-  const [loading, setLoading] = useState(true);
-  const [game, setGame] = useState(null);
-  const [hasScored, setHasScored] = useState(false);
-  const { user } = useContext(UserContext);
-  const { id } = useParams();
-  const [screenSize, setScreenSize] = useState(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [game, setGame] = useState<FirebaseGame | null | undefined>(null);
+  const [hasScored, setHasScored] = useState<boolean>(false);
+  const { user } = useUserContext();
+  const { id } = useParams<string>();
+  const [screenSize, setScreenSize] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleAddScore = () => {
@@ -21,18 +22,20 @@ export const GameScorePage: React.FC = () => {
   useEffect(() => {
     const fetchGame = async () => {
       try {
-        const gameData = await getGameFromFirestore(id);
-        if (user) {
-          const res = await checkUserScored(user.uid, id);
-          setHasScored(res);
+        if (id) {
+          const gameData = await getGameFromFirestore(id);
+          if (user) {
+            const res = (await checkUserScored(user.uid, id)) as boolean;
+            setHasScored(res);
+          }
+          setGame(gameData);
+          setLoading(false);
         }
-        setGame(gameData);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching game data:", error);
       }
     };
-
+    console.log(game);
     fetchGame();
   }, [id]);
 
@@ -49,7 +52,7 @@ export const GameScorePage: React.FC = () => {
         <span className="loading loading-spinner text-primary"></span>
       </div>
     );
-  } else if (screenSize === "desktop") {
+  } else if (screenSize === "desktop" && game) {
     return (
       <div className="hero min-h-screen min-w-screen bg-base-100 flex content-center justify-evenly">
         <div className="hero-content flex-col box-content bg-base-100 shadow-xl rounded-lg min-w-96">
@@ -75,49 +78,57 @@ export const GameScorePage: React.FC = () => {
               <h3 className="text-xl font-bold ">Genre(s)</h3>
 
               <div className="flex-col mb-4">
-                {game.genres.map((genre) => {
-                  return (
-                    <h3 key={genre.name} className="text-sm font-bold">
-                      {genre.name}
-                    </h3>
-                  );
-                })}
+                {game.genres
+                  ? game.genres.map((genre) => {
+                      return (
+                        <h3 key={genre.name} className="text-sm font-bold">
+                          {genre.name}
+                        </h3>
+                      );
+                    })
+                  : null}
               </div>
               <h3 className="text-xl font-bold ">Platform(s)</h3>
 
               <div className="flex-col mb-4">
-                {game.platforms.map((platform) => {
-                  return (
-                    <h3
-                      key={platform.platform.name}
-                      className="text-sm font-bold"
-                    >
-                      {platform.platform.name}
-                    </h3>
-                  );
-                })}
+                {game.platforms
+                  ? game.platforms.map((platform) => {
+                      return (
+                        <h3
+                          key={platform.platform.name}
+                          className="text-sm font-bold"
+                        >
+                          {platform.platform.name}
+                        </h3>
+                      );
+                    })
+                  : null}
               </div>
               <h3 className="text-xl font-bold">Age Rating</h3>
 
               <div className="flex mb-4">
                 <h3 className="text-sm font-bold">
-                  {game.esrb_rating === null ? (
-                    <p>Unknown</p>
-                  ) : (
-                    game.esrb_rating.name
-                  )}
+                  {game.esrb_rating ? (
+                    game.esrb_rating === null ? (
+                      <p>Unknown</p>
+                    ) : (
+                      game.esrb_rating.name
+                    )
+                  ) : null}
                 </h3>
               </div>
               <h3 className="text-xl font-bold">Developer(s)</h3>
 
               <div className="flex-col mb-4">
-                {game.developers.map((developer) => {
-                  return (
-                    <h3 key={developer.name} className="text-sm font-bold">
-                      {developer.name}
-                    </h3>
-                  );
-                })}
+                {game.developers
+                  ? game.developers.map((developer) => {
+                      return (
+                        <h3 key={developer.name} className="text-sm font-bold">
+                          {developer.name}
+                        </h3>
+                      );
+                    })
+                  : null}
               </div>
               <h3 className="text-xl font-bold">Metacritic Score</h3>
 
@@ -245,7 +256,7 @@ export const GameScorePage: React.FC = () => {
               </div>
             </div>
             <div className="min-w-full flex justify-center mb-12">
-              <p className="text-8xl">{game.avg_final_score.toFixed(1)}</p>
+              <p className="text-8xl">{game.avg_final_score!.toFixed(1)}</p>
             </div>
             {hasScored ? null : (
               <div className="min-w-full flex justify-center">
@@ -263,7 +274,7 @@ export const GameScorePage: React.FC = () => {
         </div>
       </div>
     );
-  } else {
+  } else if (game) {
     return (
       <div className="hero flex-col content-center justify-evenly">
         <div className="hero-content flex-col box-content min-w-96 max-w-screen">
@@ -288,29 +299,33 @@ export const GameScorePage: React.FC = () => {
                 <div className="flex-col">
                   <h3 className="text-md font-bold ">Genre(s)</h3>
                   <div className="flex-col mb-4">
-                    {game.genres.map((genre) => {
-                      return (
-                        <h3 key={genre.name} className="text-sm font-bold">
-                          {genre.name}
-                        </h3>
-                      );
-                    })}
+                    {game.genres
+                      ? game.genres.map((genre) => {
+                          return (
+                            <h3 key={genre.name} className="text-sm font-bold">
+                              {genre.name}
+                            </h3>
+                          );
+                        })
+                      : null}
                   </div>
                 </div>
                 <div className="divider"></div>
                 <div className="flex-col">
                   <h3 className="text-md font-bold ">Platform(s)</h3>
                   <div className="flex-col mb-4">
-                    {game.platforms.map((platform) => {
-                      return (
-                        <h3
-                          key={platform.platform.name}
-                          className="text-sm font-bold"
-                        >
-                          {platform.platform.name}
-                        </h3>
-                      );
-                    })}
+                    {game.platforms
+                      ? game.platforms.map((platform) => {
+                          return (
+                            <h3
+                              key={platform.platform.name}
+                              className="text-sm font-bold"
+                            >
+                              {platform.platform.name}
+                            </h3>
+                          );
+                        })
+                      : null}
                   </div>
                 </div>
               </div>
@@ -319,11 +334,13 @@ export const GameScorePage: React.FC = () => {
                   <h3 className="text-md font-bold">Age Rating</h3>
                   <div className="flex mb-4">
                     <h3 className="text-sm font-bold w-full">
-                      {game.esrb_rating === null ? (
-                        <p>Unknown</p>
-                      ) : (
-                        game.esrb_rating.name
-                      )}
+                      {game.esrb_rating ? (
+                        game.esrb_rating === null ? (
+                          <p>Unknown</p>
+                        ) : (
+                          game.esrb_rating.name
+                        )
+                      ) : null}
                     </h3>
                   </div>
                 </div>
@@ -331,13 +348,18 @@ export const GameScorePage: React.FC = () => {
                 <div className="flex-col">
                   <h3 className="text-md font-bold">Developer(s)</h3>
                   <div className="flex-col mb-4">
-                    {game.developers.map((developer) => {
-                      return (
-                        <h3 key={developer.name} className="text-sm font-bold">
-                          {developer.name}
-                        </h3>
-                      );
-                    })}
+                    {game.developers
+                      ? game.developers.map((developer) => {
+                          return (
+                            <h3
+                              key={developer.name}
+                              className="text-sm font-bold"
+                            >
+                              {developer.name}
+                            </h3>
+                          );
+                        })
+                      : null}
                   </div>
                 </div>
               </div>
@@ -487,7 +509,7 @@ export const GameScorePage: React.FC = () => {
               </div>
 
               <div className="min-w-full flex justify-center">
-                <p className="text-8xl">{game.avg_final_score.toFixed(1)}</p>
+                <p className="text-8xl">{game.avg_final_score!.toFixed(1)}</p>
               </div>
             </div>
           </div>

@@ -1,25 +1,26 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ArtDirection } from "./StarRatings/ArtDirection";
 import { Enjoyment } from "./StarRatings/Enjoyment";
 import { Gameplay } from "./StarRatings/Gameplay";
 import { Narrative } from "./StarRatings/Narrative";
 import { Soundtrack } from "./StarRatings/Sountrack";
-import { UserContext } from "../../context/UserContext";
+import { useUserContext } from "../../context/UserContext";
 import { addGame } from "../../utils/gamesApi";
 import { Link, useNavigate } from "react-router-dom";
 import { resizeFunction } from "../../utils/utils";
+import { NotScoredProps } from "../../types/Types";
 
-export const NotScoredPage: React.FC = ({ game }) => {
-  const [gameplayScore, setGameplayScore] = useState(0);
-  const [narrativeScore, setNarrativeScore] = useState(0);
-  const [soundScore, setSoundScore] = useState(0);
-  const [artScore, setArtScore] = useState(0);
-  const [enjoymentScore, setEnjoymentScore] = useState(0);
-  const { user } = useContext(UserContext);
-  const [isLoading, setIsLoading] = useState(true);
-  const [screenSize, setScreenSize] = useState(null);
+export const NotScoredPage: React.FC<NotScoredProps> = ({ game }) => {
+  const [gameplayScore, setGameplayScore] = useState<string>("0");
+  const [narrativeScore, setNarrativeScore] = useState<string>("0");
+  const [soundScore, setSoundScore] = useState<string>("0");
+  const [artScore, setArtScore] = useState<string>("0");
+  const [enjoymentScore, setEnjoymentScore] = useState<string>("0");
+  const { user } = useUserContext();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [screenSize, setScreenSize] = useState<string | null>(null);
   const navigate = useNavigate();
-
+  console.log(game);
   const handleAddGame = async () => {
     if (
       gameplayScore &&
