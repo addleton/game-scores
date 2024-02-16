@@ -21,6 +21,7 @@ import {
 } from "firebase/auth";
 import axios from "axios";
 import { getRandomGames, totalScore } from "./utils";
+import { RawgGame } from "../types/Types";
 
 export const checkUsernames = async (username) => {
   try {
@@ -118,7 +119,7 @@ export const searchGames = async (game: string) => {
   }
 };
 
-export const checkFirestoreGames = async (id: string) => {
+export const checkFirestoreGames = async (id: number) => {
   try {
     const q = query(collection(db, "games"), where("id", "==", id));
     const data = await getDocs(q);
@@ -148,7 +149,7 @@ export const getSingleGame = async (id: number) => {
 };
 
 export const addGame = async (
-  game,
+  game: RawgGame,
   user: any,
   gameplay: number,
   narrative: number,

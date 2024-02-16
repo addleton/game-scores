@@ -93,3 +93,31 @@ export interface HomeProps {
   homepageSearchInput: string;
   setHomepageSearchInput: React.Dispatch<React.SetStateAction<string>>;
 }
+
+export interface GameSearchProps {
+  setSelectedGame: React.Dispatch<React.SetStateAction<RawgGame | null>>;
+  selectedGame: RawgGame | null;
+  homepageSearchInput: string;
+  setHomepageSearchInput: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface RawgGame {
+  id: number;
+  name: string;
+  background_image: string;
+  background_image_additional: string;
+  developers: DeveloperObj[];
+  description_raw: string;
+  esrb_rating: EsrbRatingObj | null;
+  genres: GenreObj[];
+  metacritic: number | null;
+  platforms: PlatformObj[];
+  publishers: PublisherObj[];
+  released: string;
+}
+
+export interface GameCardProps {
+  game: RawgGame;
+  setSelectedGame: React.Dispatch<React.SetStateAction<RawgGame | null>>;
+  setIsGameAdded: React.Dispatch<React.SetStateAction<boolean | null>>;
+}
