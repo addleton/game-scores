@@ -1,25 +1,26 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ArtDirection } from "./StarRatings/ArtDirection";
 import { Enjoyment } from "./StarRatings/Enjoyment";
 import { Gameplay } from "./StarRatings/Gameplay";
 import { Narrative } from "./StarRatings/Narrative";
 import { Soundtrack } from "./StarRatings/Sountrack";
-import { UserContext } from "../context/UserContext";
-import { addScore, getGameFromFirestore } from "../utils/gamesApi";
+import { useUserContext } from "../../context/UserContext";
+import { addScore, getGameFromFirestore } from "../../utils/gamesApi";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { resizeFunction } from "../utils/utils";
+import { resizeFunction } from "../../utils/utils";
+import { FirebaseGame } from "../../types/Types";
 
 export const AddScorePage: React.FC = () => {
-  const [game, setGame] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [gameplayScore, setGameplayScore] = useState(0);
-  const [narrativeScore, setNarrativeScore] = useState(0);
-  const [soundScore, setSoundScore] = useState(0);
-  const [artScore, setArtScore] = useState(0);
-  const [enjoymentScore, setEnjoymentScore] = useState(0);
-  const { user } = useContext(UserContext);
-  const [screenSize, setScreenSize] = useState("desktop");
-  const { id } = useParams();
+  const [game, setGame] = useState<FirebaseGame | null | undefined>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [gameplayScore, setGameplayScore] = useState<string>('0');
+  const [narrativeScore, setNarrativeScore] = useState<string>('0');
+  const [soundScore, setSoundScore] = useState<string>('0');
+  const [artScore, setArtScore] = useState<string>('0');
+  const [enjoymentScore, setEnjoymentScore] = useState<string>('0');
+  const { user } = useUserContext();
+  const [screenSize, setScreenSize] = useState<string>("desktop");
+  const { id } = useParams<string>();
   const navigate = useNavigate();
   const handleAddGame = async () => {
     if (
@@ -38,16 +39,18 @@ export const AddScorePage: React.FC = () => {
         Number(enjoymentScore),
         Number(id)
       );
-      if (res) {
+      if (res && game) {
         navigate(`/games/${game.id}`);
       }
     }
   };
 
   const retrieveGame = async () => {
-    const data = await getGameFromFirestore(id);
-    setGame(data);
-    setIsLoading(false);
+    if (id) {
+      const data = await getGameFromFirestore(id);
+      setGame(data);
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -67,7 +70,7 @@ export const AddScorePage: React.FC = () => {
         <span className="loading loading-spinner text-primary"></span>
       </div>
     );
-  } else if (screenSize === "desktop") {
+  } else if (screenSize === "desktop" && game) {
     return (
       <>
         {user !== null || user !== undefined ? (
@@ -130,7 +133,7 @@ export const AddScorePage: React.FC = () => {
         )}
       </>
     );
-  } else {
+  } else if (game) {
     return (
       <>
         {user !== null || user !== undefined ? (
