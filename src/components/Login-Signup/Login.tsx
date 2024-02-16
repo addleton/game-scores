@@ -1,22 +1,23 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { signIn } from "../utils/gamesApi";
-import { UserContext } from "../context/UserContext";
-import { resizeFunction } from "../utils/utils";
+import { signIn } from "../../utils/gamesApi";
+import { useUserContext } from "../../context/UserContext";
+import { resizeFunction } from "../../utils/utils";
+import { User } from "../../types/Types";
 
 export const Login: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { user, setUser } = useContext(UserContext);
-  const [screenSize, setScreenSize] = useState("desktop");
-  const [isLoading, setIsLoading] = useState(true);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const { setUser } = useUserContext();
+  const [screenSize, setScreenSize] = useState<string>("desktop");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
-  const handleSignIn = async (e) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    const signedInUser = await signIn(email, password);
+    const signedInUser = (await signIn(email, password)) as User | null;
     setUser(signedInUser);
-    if (signedInUser !== false) {
+    if (signedInUser) {
       navigate("/");
     }
   };
