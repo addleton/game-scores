@@ -1,17 +1,22 @@
 import { useNavigate } from "react-router-dom";
-import { checkFirestoreGames, getSingleGame } from "../utils/gamesApi";
+import { checkFirestoreGames, getSingleGame } from "../../utils/gamesApi";
+import { GameCardProps } from "../../types/Types";
 
-const GameCard: React.FC = ({ game, setSelectedGame, setIsGameAdded }) => {
+const GameCard: React.FC<GameCardProps> = ({
+  game,
+  setSelectedGame,
+  setIsGameAdded,
+}) => {
   const navigate = useNavigate();
   const handleCardClick = async () => {
-    const gameAdded = await checkFirestoreGames(game.id);
-    await setIsGameAdded(gameAdded);
+    const gameAdded = await checkFirestoreGames(game.id) as boolean;
+    setIsGameAdded(gameAdded);
     if (gameAdded) {
       navigate(`/games/${game.id}`);
     } else {
       const singleGame = await getSingleGame(game.id);
-
-      await setSelectedGame(singleGame);
+      console.log(singleGame);
+      setSelectedGame(singleGame);
     }
   };
 

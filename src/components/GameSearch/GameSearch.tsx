@@ -1,22 +1,24 @@
-import { useEffect, useState } from "react";
-import { searchGames } from "../utils/gamesApi";
+import React, { useEffect, useState } from "react";
+import { searchGames } from "../../utils/gamesApi";
 import GameCard from "./GameCard";
 import { useNavigate } from "react-router-dom";
-import { resizeFunction } from "../utils/utils";
+import { resizeFunction } from "../../utils/utils";
 import MobileGameCard from "./MobileGameCard";
+import { GameSearchProps, RawgGame } from "../../types/Types";
 
-export const GameSearch: React.FC = ({
+export const GameSearch: React.FC<GameSearchProps> = ({
   setSelectedGame,
   selectedGame,
   homepageSearchInput,
+  setHomepageSearchInput,
 }) => {
   const navigate = useNavigate();
-  const [games, setGames] = useState(undefined);
-  const [isGameAdded, setIsGameAdded] = useState(null);
-  const [searchInput, setSearchInput] = useState("");
-  const [screenSize, setScreenSize] = useState(null);
+  const [games, setGames] = useState<RawgGame[] | undefined>(undefined);
+  const [isGameAdded, setIsGameAdded] = useState<boolean | null>(null);
+  const [searchInput, setSearchInput] = useState<string>("");
+  const [screenSize, setScreenSize] = useState<string | null>(null);
 
-  const handleGameSearch = async (e) => {
+  const handleGameSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     setSelectedGame(null);
     const data = await searchGames(searchInput);
@@ -28,13 +30,14 @@ export const GameSearch: React.FC = ({
       setSearchInput(homepageSearchInput);
       const data = await searchGames(homepageSearchInput);
       setGames(data);
+      setHomepageSearchInput("");
     };
 
     if (homepageSearchInput) {
       functionFromHomepage();
     }
 
-    if (isGameAdded === true) {
+    if (isGameAdded === true && selectedGame) {
       navigate(`/games/${selectedGame.id}`);
     } else if (isGameAdded === false) {
       navigate("/games/add-game");
@@ -90,8 +93,6 @@ export const GameSearch: React.FC = ({
                   })}
             </div>
           </div>
-        ) : selectedGame && isGameAdded ? (
-          <p>reviews here</p>
         ) : null}
       </>
     );
@@ -131,8 +132,6 @@ export const GameSearch: React.FC = ({
                   })}
             </div>
           </div>
-        ) : selectedGame && isGameAdded ? (
-          <p>reviews here</p>
         ) : null}
       </>
     );

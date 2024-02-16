@@ -32,8 +32,6 @@ const Home: React.FC<HomeProps> = ({
     }
   };
 
-  console.log(gameplayGames);
-
   const retrieveInfo = async () => {
     setHomepageSearchInput("");
     if (!gameplayGames || !narrativeGames || !musicGames || !artGames) {

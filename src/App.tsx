@@ -5,21 +5,22 @@ import Home from "./components/Homepage/Home";
 import { Games } from "./components/Games";
 import { SignUp } from "./components/SignUp";
 import { Login } from "./components/Login";
-import { UserContext, useUserContext } from "./context/UserContext";
-import { GameSearch } from "./components/GameSearch";
+import { useUserContext } from "./context/UserContext";
+import { GameSearch } from "./components/GameSearch/GameSearch";
 import { NotScoredPage } from "./components/NotScoredPage";
 import { GameScorePage } from "./components/GameScorePage";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AddScorePage } from "./components/AddScorePage";
 import { onAuthStateChanged } from "firebase/auth";
 import { getSignedInUserInfo } from "./utils/gamesApi";
 import { auth } from "../firebaseConfig";
 import { UserGames } from "./components/UserGames";
 import { Footer } from "./components/Header_Footer/Footer";
+import { RawgGame } from "./types/Types";
 function App() {
-  const [selectedGame, setSelectedGame] = useState(null);
-  const [selectedGameId, setSelectedGameId] = useState(null);
-  const [homepageSearchInput, setHomepageSearchInput] = useState("");
+  const [selectedGame, setSelectedGame] = useState<RawgGame | null>(null);
+  const [selectedGameId, setSelectedGameId] = useState<number | null>(null);
+  const [homepageSearchInput, setHomepageSearchInput] = useState<string>("");
   const { setUser } = useUserContext();
 
   useEffect(() => {
@@ -48,7 +49,6 @@ function App() {
             <Home
               homepageSearchInput={homepageSearchInput}
               setHomepageSearchInput={setHomepageSearchInput}
-              setSelectedGame={setSelectedGame}
             />
           }
         />
@@ -62,6 +62,7 @@ function App() {
               setSelectedGame={setSelectedGame}
               selectedGame={selectedGame}
               homepageSearchInput={homepageSearchInput}
+              setHomepageSearchInput={setHomepageSearchInput}
             />
           }
         />
