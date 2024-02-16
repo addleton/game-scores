@@ -1,37 +1,41 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from "../../context/UserContext";
+import { useUserContext } from "../../context/UserContext";
 import { fetchAndStoreGames } from "../../utils/gamesApi";
 import MobileRecommendedCard from "./MobileRecommendedCard";
 import { resizeFunction } from "../../utils/utils";
 import DesktopRecommendedCard from "./DesktopRecommendedCard";
+import { HomeProps, HomepageGame } from "../../types/Types";
 
-const Home = ({
+const Home: React.FC<HomeProps> = ({
   homepageSearchInput,
   setHomepageSearchInput,
-  setSelectedGame,
 }) => {
   const [screenSize, setScreenSize] = useState(null);
-  const [gameplayGames, setGameplayGames] = useState(null);
-  const [narrativeGames, setNarrativeGames] = useState(null);
-  const [musicGames, setMusicGames] = useState(null);
-  const [artGames, setArtGames] = useState(null);
+  const [gameplayGames, setGameplayGames] = useState<HomepageGame[] | null>(
+    null
+  );
+  const [narrativeGames, setNarrativeGames] = useState<HomepageGame[] | null>(
+    null
+  );
+  const [musicGames, setMusicGames] = useState<HomepageGame[] | null>(null);
+  const [artGames, setArtGames] = useState<HomepageGame[] | null>(null);
   const [gotAllGames, setGotAllGames] = useState(false);
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useUserContext();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  console.log(user);
 
-  const handleSearchSubmit = async (e) => {
+  const handleSearchSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await setSelectedGame(null);
     if (homepageSearchInput) {
       navigate("/game-search");
     }
   };
 
+  console.log(gameplayGames);
+
   const retrieveInfo = async () => {
-    await setHomepageSearchInput("");
+    setHomepageSearchInput("");
     if (!gameplayGames || !narrativeGames || !musicGames || !artGames) {
       const allGames = await fetchAndStoreGames();
       setGameplayGames(allGames.gameplayGames);
@@ -47,12 +51,6 @@ const Home = ({
   useEffect(() => {
     retrieveInfo();
   }, [gotAllGames, user]);
-
-  useEffect(() => {
-    if (user === undefined) {
-      setUser(null);
-    }
-  }, []);
 
   useEffect(() => {
     const resize = resizeFunction(setScreenSize);
@@ -77,7 +75,7 @@ const Home = ({
     } else {
       return (
         <div className="hero min-h-screen max-w-screen min-w-screen">
-          {user !== undefined || user !== null ? (
+          {user ? (
             <div className="home-page-container">
               <div className="hero min-h-screen bg-primary">
                 <div className="hero-content text-center text-neutral-content">
@@ -117,11 +115,13 @@ const Home = ({
                     Unrivaled gameplay
                   </h2>
                   <div className="home-games flex">
-                    {gameplayGames.map((game) => {
-                      return (
-                        <DesktopRecommendedCard key={game.id} game={game} />
-                      );
-                    })}
+                    {gameplayGames
+                      ? gameplayGames.map((game) => {
+                          return (
+                            <DesktopRecommendedCard key={game.id} game={game} />
+                          );
+                        })
+                      : null}
                   </div>
                 </div>
                 <div className="divider home-page-divider" />
@@ -130,11 +130,13 @@ const Home = ({
                     Captivating stories
                   </h2>
                   <div className="home-games flex">
-                    {narrativeGames.map((game) => {
-                      return (
-                        <DesktopRecommendedCard key={game.id} game={game} />
-                      );
-                    })}
+                    {narrativeGames
+                      ? narrativeGames.map((game) => {
+                          return (
+                            <DesktopRecommendedCard key={game.id} game={game} />
+                          );
+                        })
+                      : null}
                   </div>
                 </div>
                 <div className="divider home-page-divider" />
@@ -143,11 +145,13 @@ const Home = ({
                     Unforgettable music
                   </h2>
                   <div className="home-games flex">
-                    {musicGames.map((game) => {
-                      return (
-                        <DesktopRecommendedCard key={game.id} game={game} />
-                      );
-                    })}
+                    {musicGames
+                      ? musicGames.map((game) => {
+                          return (
+                            <DesktopRecommendedCard key={game.id} game={game} />
+                          );
+                        })
+                      : null}
                   </div>
                 </div>
                 <div className="divider home-page-divider" />
@@ -156,11 +160,13 @@ const Home = ({
                     Visually stunning artwork
                   </h2>
                   <div className="home-games flex">
-                    {artGames.map((game) => {
-                      return (
-                        <DesktopRecommendedCard key={game.id} game={game} />
-                      );
-                    })}
+                    {artGames
+                      ? artGames.map((game) => {
+                          return (
+                            <DesktopRecommendedCard key={game.id} game={game} />
+                          );
+                        })
+                      : null}
                   </div>
                 </div>
               </div>
@@ -237,11 +243,13 @@ const Home = ({
                     Unrivaled gameplay
                   </h2>
                   <div className="mobile-home-games ">
-                    {gameplayGames.slice(0, 1).map((game) => {
-                      return (
-                        <MobileRecommendedCard key={game.id} game={game} />
-                      );
-                    })}
+                    {gameplayGames
+                      ? gameplayGames.slice(0, 1).map((game) => {
+                          return (
+                            <MobileRecommendedCard key={game.id} game={game} />
+                          );
+                        })
+                      : null}
                   </div>
                 </div>
                 <div className="divider home-page-divider" />
@@ -250,11 +258,13 @@ const Home = ({
                     Captivating stories
                   </h2>
                   <div className="mobile-home-games ">
-                    {narrativeGames.slice(0, 1).map((game) => {
-                      return (
-                        <MobileRecommendedCard key={game.id} game={game} />
-                      );
-                    })}
+                    {narrativeGames
+                      ? narrativeGames.slice(0, 1).map((game) => {
+                          return (
+                            <MobileRecommendedCard key={game.id} game={game} />
+                          );
+                        })
+                      : null}
                   </div>
                 </div>
                 <div className="divider home-page-divider" />
@@ -263,11 +273,13 @@ const Home = ({
                     Unforgettable music
                   </h2>
                   <div className="mobile-home-games ">
-                    {musicGames.slice(0, 1).map((game) => {
-                      return (
-                        <MobileRecommendedCard key={game.id} game={game} />
-                      );
-                    })}
+                    {musicGames
+                      ? musicGames.slice(0, 1).map((game) => {
+                          return (
+                            <MobileRecommendedCard key={game.id} game={game} />
+                          );
+                        })
+                      : null}
                   </div>
                 </div>
                 <div className="divider home-page-divider" />
@@ -276,11 +288,13 @@ const Home = ({
                     Visually stunning artwork
                   </h2>
                   <div className="mobile-home-games">
-                    {artGames.slice(0, 1).map((game) => {
-                      return (
-                        <MobileRecommendedCard key={game.id} game={game} />
-                      );
-                    })}
+                    {artGames
+                      ? artGames.slice(0, 1).map((game) => {
+                          return (
+                            <MobileRecommendedCard key={game.id} game={game} />
+                          );
+                        })
+                      : null}
                   </div>
                 </div>
               </div>

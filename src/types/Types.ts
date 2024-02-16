@@ -85,6 +85,11 @@ export interface User {
 }
 
 export interface UserContextProps {
-  user: User | undefined;
-  setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
+  user: User | undefined | null;
+  setUser: React.Dispatch<React.SetStateAction<User | undefined | null>>;
+}
+
+export interface HomeProps {
+  homepageSearchInput: string;
+  setHomepageSearchInput: React.Dispatch<React.SetStateAction<string>>;
 }
