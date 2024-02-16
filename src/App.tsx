@@ -5,13 +5,12 @@ import Home from "./components/Homepage/Home";
 import { Games } from "./components/Games";
 import { SignUp } from "./components/SignUp";
 import { Login } from "./components/Login";
-import { UserContext } from "./context/UserContext";
+import { UserContext, useUserContext } from "./context/UserContext";
 import { GameSearch } from "./components/GameSearch";
 import { NotScoredPage } from "./components/NotScoredPage";
 import { GameScorePage } from "./components/GameScorePage";
 import { useContext, useEffect, useState } from "react";
 import { AddScorePage } from "./components/AddScorePage";
-import { UserProfile } from "./components/UserProfile";
 import { onAuthStateChanged } from "firebase/auth";
 import { getSignedInUserInfo } from "./utils/gamesApi";
 import { auth } from "../firebaseConfig";
@@ -21,8 +20,7 @@ function App() {
   const [selectedGame, setSelectedGame] = useState(null);
   const [selectedGameId, setSelectedGameId] = useState(null);
   const [homepageSearchInput, setHomepageSearchInput] = useState("");
-  const { setUser } = useContext(UserContext);
-  const [isLoading, setIsLoading] = useState(true);
+  const { setUser } = useUserContext();
 
   useEffect(() => {
     if (selectedGame !== null) {
@@ -36,7 +34,7 @@ function App() {
         setUser(null);
       }
     });
-    setIsLoading(false);
+
     return () => unsubscribe();
   }, [selectedGame]);
 
