@@ -1,23 +1,23 @@
-export interface HomepageGame {
-  alt_img: string;
-  avg_art_direction: number;
-  avg_enjoyment: number;
-  avg_final_score: number;
-  avg_gameplay: number;
-  avg_narrative: number;
-  avg_soundtrack: number;
-  description: string;
-  developers: DeveloperObj[];
-  esrb_rating: EsrbRatingObj;
-  genres: GenreObj[];
-  id: number;
-  img: string;
-  metacritic: number;
-  name: string;
-  platforms: PlatformObj[];
-  publishers: PublisherObj[];
-  released: string;
-  total_scores: number;
+export interface FirebaseGame {
+  alt_img?: string;
+  avg_art_direction?: number;
+  avg_enjoyment?: number;
+  avg_final_score?: number;
+  avg_gameplay?: number;
+  avg_narrative?: number;
+  avg_soundtrack?: number;
+  description?: string;
+  developers?: DeveloperObj[];
+  esrb_rating?: EsrbRatingObj;
+  genres?: GenreObj[];
+  id?: number | string;
+  img?: string;
+  metacritic?: number;
+  name?: string;
+  platforms?: PlatformObj[];
+  publishers?: PublisherObj[];
+  released?: string;
+  total_scores?: number;
 }
 
 interface EsrbRatingObj {

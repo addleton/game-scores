@@ -1,10 +1,10 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { checkUserScored, getGameFromFirestore } from "../utils/gamesApi";
+import { checkUserScored, getGameFromFirestore } from "../../utils/gamesApi";
 import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../context/UserContext";
+import { UserContext } from "../../context/UserContext";
 import { Rating } from "@mui/material";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
-import { resizeFunction } from "../utils/utils";
+import { resizeFunction } from "../../utils/utils";
 
 export const GameScorePage: React.FC = () => {
   const [loading, setLoading] = useState(true);

@@ -5,21 +5,21 @@ import { fetchAndStoreGames } from "../../utils/gamesApi";
 import MobileRecommendedCard from "./MobileRecommendedCard";
 import { resizeFunction } from "../../utils/utils";
 import DesktopRecommendedCard from "./DesktopRecommendedCard";
-import { HomeProps, HomepageGame } from "../../types/Types";
+import { HomeProps, FirebaseGame } from "../../types/Types";
 
 const Home: React.FC<HomeProps> = ({
   homepageSearchInput,
   setHomepageSearchInput,
 }) => {
   const [screenSize, setScreenSize] = useState(null);
-  const [gameplayGames, setGameplayGames] = useState<HomepageGame[] | null>(
+  const [gameplayGames, setGameplayGames] = useState<FirebaseGame[] | null>(
     null
   );
-  const [narrativeGames, setNarrativeGames] = useState<HomepageGame[] | null>(
+  const [narrativeGames, setNarrativeGames] = useState<FirebaseGame[] | null>(
     null
   );
-  const [musicGames, setMusicGames] = useState<HomepageGame[] | null>(null);
-  const [artGames, setArtGames] = useState<HomepageGame[] | null>(null);
+  const [musicGames, setMusicGames] = useState<FirebaseGame[] | null>(null);
+  const [artGames, setArtGames] = useState<FirebaseGame[] | null>(null);
   const [gotAllGames, setGotAllGames] = useState(false);
   const { user } = useUserContext();
   const [isLoading, setIsLoading] = useState(true);

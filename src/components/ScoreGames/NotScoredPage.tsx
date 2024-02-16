@@ -4,10 +4,10 @@ import { Enjoyment } from "./StarRatings/Enjoyment";
 import { Gameplay } from "./StarRatings/Gameplay";
 import { Narrative } from "./StarRatings/Narrative";
 import { Soundtrack } from "./StarRatings/Sountrack";
-import { UserContext } from "../context/UserContext";
-import { addGame } from "../utils/gamesApi";
+import { UserContext } from "../../context/UserContext";
+import { addGame } from "../../utils/gamesApi";
 import { Link, useNavigate } from "react-router-dom";
-import { resizeFunction } from "../utils/utils";
+import { resizeFunction } from "../../utils/utils";
 
 export const NotScoredPage: React.FC = ({ game }) => {
   const [gameplayScore, setGameplayScore] = useState(0);
