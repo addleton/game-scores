@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
-import { checkUsernames, createUser } from "../utils/gamesApi";
+import { checkUsernames, createUser } from "../../utils/gamesApi";
 import { useNavigate } from "react-router-dom";
-import { resizeFunction } from "../utils/utils";
+import { resizeFunction } from "../../utils/utils";
 
 export const SignUp: React.FC = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState("");
-  const [usernameTaken, setUsernameTaken] = useState(null);
-  const [usernameValid, setUsernameValid] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
-  const [screenSize, setScreenSize] = useState("desktop");
+  const [usernameTaken, setUsernameTaken] = useState<boolean | null>(null);
+  const [usernameValid, setUsernameValid] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [screenSize, setScreenSize] = useState<string>("desktop");
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (firstName && lastName && usernameValid && email && password) {
       const userDetails = {
@@ -37,7 +37,7 @@ export const SignUp: React.FC = () => {
       setUsernameValid(true);
     }
     try {
-      const doesUserExist = await checkUsernames(username);
+      const doesUserExist = (await checkUsernames(username)) as boolean;
       setUsernameTaken(doesUserExist);
     } catch (err) {
       console.error(err);

@@ -23,7 +23,7 @@ import axios from "axios";
 import { getRandomGames, totalScore } from "./utils";
 import { RawgGame } from "../types/Types";
 
-export const checkUsernames = async (username) => {
+export const checkUsernames = async (username:string) => {
   try {
     const querySnapshot = await getDocs(
       query(collection(db, "users"), where("username", "==", username))
@@ -75,10 +75,11 @@ export const signIn = async (email: string, password: string) => {
       uid,
       ...userData,
     };
+    console.log(user)
     return user;
   } catch (err) {
     console.error("Unable to sign in:", err);
-    return false;
+    return null;
   }
 };
 
