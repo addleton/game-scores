@@ -5,7 +5,7 @@ import { Gameplay } from "./StarRatings/Gameplay";
 import { Narrative } from "./StarRatings/Narrative";
 import { Soundtrack } from "./StarRatings/Sountrack";
 import { useUserContext } from "../../context/UserContext";
-import { addScore, getGameFromFirestore } from "../../utils/gamesApi";
+import { addScore, getGameFromFirestore } from "../../utils/api";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { resizeFunction } from "../../utils/utils";
 import { FirebaseGame } from "../../types/Types";

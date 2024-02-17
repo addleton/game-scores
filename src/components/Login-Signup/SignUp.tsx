@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { checkUsernames, createUser } from "../../utils/gamesApi";
+import { checkUsernames, createUser } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import { resizeFunction } from "../../utils/utils";
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserGames } from "../../utils/gamesApi";
+import { getUserGames } from "../../utils/api";
 import { useParams } from "react-router-dom";
 import { resizeFunction } from "../../utils/utils";
 import UserGameCard from "./../UserGames/UserGameCard";

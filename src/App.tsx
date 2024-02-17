@@ -12,7 +12,7 @@ import { GameScorePage } from "./components/ScoreGames/GameScorePage";
 import { useEffect, useState } from "react";
 import { AddScorePage } from "./components/ScoreGames/AddScorePage";
 import { onAuthStateChanged } from "firebase/auth";
-import { getSignedInUserInfo } from "./utils/gamesApi";
+import { getSignedInUserInfo } from "./utils/api";
 import { auth } from "../firebaseConfig";
 import { UserGames } from "./components/UserGames/UserGames";
 import { Footer } from "./components/Header_Footer/Footer";

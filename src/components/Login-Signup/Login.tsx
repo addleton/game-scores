@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { signIn } from "../../utils/gamesApi";
+import { signIn } from "../../utils/api";
 import { useUserContext } from "../../context/UserContext";
 import { resizeFunction } from "../../utils/utils";
 import { User } from "../../types/Types";

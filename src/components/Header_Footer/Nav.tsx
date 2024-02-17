@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../../context/UserContext";
-import { signOutUser } from "../../utils/gamesApi";
+import { signOutUser } from "../../utils/api";
 import { resizeFunction } from "../../utils/utils";
 
 const Nav = () => {

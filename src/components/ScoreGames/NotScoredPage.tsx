@@ -5,7 +5,7 @@ import { Gameplay } from "./StarRatings/Gameplay";
 import { Narrative } from "./StarRatings/Narrative";
 import { Soundtrack } from "./StarRatings/Sountrack";
 import { useUserContext } from "../../context/UserContext";
-import { addGame } from "../../utils/gamesApi";
+import { addGame } from "../../utils/api";
 import { Link, useNavigate } from "react-router-dom";
 import { resizeFunction } from "../../utils/utils";
 import { NotScoredProps } from "../../types/Types";

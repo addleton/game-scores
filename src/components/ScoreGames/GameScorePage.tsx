@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { checkUserScored, getGameFromFirestore } from "../../utils/gamesApi";
+import { checkUserScored, getGameFromFirestore } from "../../utils/api";
 import { useEffect, useState } from "react";
 import { useUserContext } from "../../context/UserContext";
 import { Rating } from "@mui/material";

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { searchGames } from "../../utils/gamesApi";
+import { searchGames } from "../../utils/api";
 import GameCard from "./GameCard";
 import { useNavigate } from "react-router-dom";
 import { resizeFunction } from "../../utils/utils";

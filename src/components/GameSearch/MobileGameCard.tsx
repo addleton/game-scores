@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { checkFirestoreGames, getSingleGame } from "../../utils/gamesApi";
+import { checkFirestoreGames, getSingleGame } from "../../utils/api";
 import { GameCardProps } from "../../types/Types";
 
 const MobileGameCard: React.FC<GameCardProps> = ({
