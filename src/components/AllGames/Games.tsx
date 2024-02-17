@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllFirestoreGames } from "../utils/gamesApi";
+import { getAllFirestoreGames } from "../../utils/gamesApi";
 import { Link } from "react-router-dom";
 
 export const Games: React.FC = () => {

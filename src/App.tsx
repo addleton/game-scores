@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header_Footer/Header";
 import Home from "./components/Homepage/Home";
-import { Games } from "./components/Games";
+import { Games } from "./components/AllGames/Games";
 import { SignUp } from "./components/Login-Signup/SignUp";
 import { Login } from "./components/Login-Signup/Login";
 import { useUserContext } from "./context/UserContext";
