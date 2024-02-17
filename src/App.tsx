@@ -14,7 +14,7 @@ import { AddScorePage } from "./components/ScoreGames/AddScorePage";
 import { onAuthStateChanged } from "firebase/auth";
 import { getSignedInUserInfo } from "./utils/gamesApi";
 import { auth } from "../firebaseConfig";
-import { UserGames } from "./components/UserGames";
+import { UserGames } from "./components/UserGames/UserGames";
 import { Footer } from "./components/Header_Footer/Footer";
 import { RawgGame } from "./types/Types";
 function App() {
