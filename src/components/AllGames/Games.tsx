@@ -1,19 +1,22 @@
 import { useEffect, useState } from "react";
 import { getAllFirestoreGames } from "../../utils/gamesApi";
 import { Link } from "react-router-dom";
+import { FirebaseGame } from "../../types/Types";
 
 export const Games: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [games, setGames] = useState([]);
-  const [order, setOrder] = useState("desc");
-  const [sort, setSort] = useState("avg_final_score");
-  const [screenSize, setScreenSize] = useState("desktop");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [games, setGames] = useState<FirebaseGame[]>([]);
+  const [order, setOrder] = useState<string>("desc");
+  const [sort, setSort] = useState<string>("avg_final_score");
+  const [screenSize, setScreenSize] = useState<string>("desktop");
 
   useEffect(() => {
     const fetchGames = async () => {
       const data = await getAllFirestoreGames(sort, order);
-      setGames(data);
-      setIsLoading(false);
+      if (data !== undefined) {
+        setGames(data);
+        setIsLoading(false);
+      }
     };
 
     fetchGames();
