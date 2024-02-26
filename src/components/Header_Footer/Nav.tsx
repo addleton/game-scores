@@ -64,11 +64,7 @@ const Nav = () => {
                                     className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
                                 >
                                     <li>
-                                        <Link to="/profile">
-                                            <p className="justify-between">
-                                                Profile
-                                            </p>
-                                        </Link>
+                                        <p>{user.username}</p>
                                     </li>
                                     <li>
                                         <Link to={`/${user.username}/games`}>
@@ -163,11 +159,9 @@ const Nav = () => {
                                     className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
                                 >
                                     <li>
-                                        <Link to="/profile">
-                                            <p className="justify-between">
-                                                Profile
-                                            </p>
-                                        </Link>
+                                        <p className="justify-between">
+                                            {user.username}
+                                        </p>
                                     </li>
                                     <li>
                                         <Link to={`/${user.username}/games`}>
