@@ -11,7 +11,7 @@ const Home: React.FC<HomeProps> = ({
     homepageSearchInput,
     setHomepageSearchInput,
 }) => {
-    const [screenSize, setScreenSize] = useState(null);
+    const [screenSize, setScreenSize] = useState<string>("desktop");
     const [gameplayGames, setGameplayGames] = useState<FirebaseGame[] | null>(
         null
     );
@@ -57,13 +57,7 @@ const Home: React.FC<HomeProps> = ({
         };
     }, []);
 
-    if (!screenSize) {
-        return (
-            <div className="hero min-h-screen">
-                <span className="loading loading-spinner text-primary"></span>
-            </div>
-        );
-    } else if (screenSize === "desktop") {
+    if (screenSize === "desktop") {
         if (isLoading) {
             return (
                 <div className="hero min-h-screen">

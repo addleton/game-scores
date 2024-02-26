@@ -148,7 +148,7 @@ export interface EnjoymentRatingProps {
 }
 
 export interface NotScoredProps {
-    game: RawgGame;
+    game: RawgGame | null;
 }
 
 export interface UserGameCardProps {
@@ -174,4 +174,20 @@ export interface FirebaseUserGame {
 interface Timestamp {
     seconds: number;
     nanoseconds: number;
+}
+
+export interface UserSignUp {
+    firstName: string;
+    lastName: string;
+    username: string;
+    email: string;
+    password: string;
+}
+
+export interface FirebaseUser {
+    first_name: string;
+    img_url: string;
+    last_name: string;
+    uid: string;
+    username: string;
 }

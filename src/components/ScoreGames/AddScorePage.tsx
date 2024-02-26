@@ -8,7 +8,7 @@ import { useUserContext } from "../../context/UserContext";
 import { addScore, getGameFromFirestore } from "../../utils/api";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { resizeFunction } from "../../utils/utils";
-import { FirebaseGame } from "../../types/Types";
+import { FirebaseGame, User } from "../../types/Types";
 
 export const AddScorePage: React.FC = () => {
     const [game, setGame] = useState<FirebaseGame | null | undefined>(null);
@@ -31,7 +31,7 @@ export const AddScorePage: React.FC = () => {
             enjoymentScore
         ) {
             const res = await addScore(
-                user,
+                user as User,
                 Number(gameplayScore),
                 Number(narrativeScore),
                 Number(soundScore),
@@ -223,4 +223,5 @@ export const AddScorePage: React.FC = () => {
             </>
         );
     }
+    return null;
 };

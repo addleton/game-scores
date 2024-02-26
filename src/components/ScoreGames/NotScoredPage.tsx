@@ -8,7 +8,7 @@ import { useUserContext } from "../../context/UserContext";
 import { addGame } from "../../utils/api";
 import { Link, useNavigate } from "react-router-dom";
 import { resizeFunction } from "../../utils/utils";
-import { NotScoredProps } from "../../types/Types";
+import { NotScoredProps, RawgGame } from "../../types/Types";
 
 export const NotScoredPage: React.FC<NotScoredProps> = ({ game }) => {
     const [gameplayScore, setGameplayScore] = useState<string>("0");
@@ -18,9 +18,8 @@ export const NotScoredPage: React.FC<NotScoredProps> = ({ game }) => {
     const [enjoymentScore, setEnjoymentScore] = useState<string>("0");
     const { user } = useUserContext();
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [screenSize, setScreenSize] = useState<string | null>(null);
+    const [screenSize, setScreenSize] = useState<string>("desktop");
     const navigate = useNavigate();
-    console.log(game);
     const handleAddGame = async () => {
         if (
             gameplayScore &&
@@ -30,7 +29,7 @@ export const NotScoredPage: React.FC<NotScoredProps> = ({ game }) => {
             enjoymentScore
         ) {
             const res = await addGame(
-                game,
+                game as RawgGame,
                 user,
                 Number(gameplayScore),
                 Number(narrativeScore),
@@ -38,7 +37,7 @@ export const NotScoredPage: React.FC<NotScoredProps> = ({ game }) => {
                 Number(artScore),
                 Number(enjoymentScore)
             );
-            if (res) {
+            if (res && game) {
                 navigate(`/games/${game.id}`);
             }
         }
@@ -57,13 +56,13 @@ export const NotScoredPage: React.FC<NotScoredProps> = ({ game }) => {
         };
     }, []);
 
-    if (isLoading || !screenSize) {
+    if (isLoading) {
         return (
             <div className="hero min-h-screen" id="home-page-full">
                 <span className="loading loading-spinner text-primary"></span>
             </div>
         );
-    } else if (screenSize === "desktop") {
+    } else if (screenSize === "desktop" && game) {
         return (
             <>
                 {user !== null || user !== undefined ? (
@@ -135,7 +134,7 @@ export const NotScoredPage: React.FC<NotScoredProps> = ({ game }) => {
                 )}
             </>
         );
-    } else {
+    } else if (screenSize === "mobile" && game) {
         return (
             <>
                 {user !== null || user !== undefined ? (
@@ -212,4 +211,5 @@ export const NotScoredPage: React.FC<NotScoredProps> = ({ game }) => {
             </>
         );
     }
+    return null;
 };
