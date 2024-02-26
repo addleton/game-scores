@@ -13,7 +13,7 @@ export const GameScorePage: React.FC = () => {
     const [hasScored, setHasScored] = useState<boolean>(false);
     const { user } = useUserContext();
     const { id } = useParams<string>();
-    const [screenSize, setScreenSize] = useState<string | null>(null);
+    const [screenSize, setScreenSize] = useState<string>("desktop");
     const navigate = useNavigate();
 
     const handleAddScore = () => {
@@ -38,7 +38,6 @@ export const GameScorePage: React.FC = () => {
                 console.error("Error fetching game data:", error);
             }
         };
-        console.log(game);
         fetchGame();
     }, [id]);
 
@@ -49,7 +48,7 @@ export const GameScorePage: React.FC = () => {
         };
     }, []);
 
-    if (loading || !screenSize) {
+    if (loading) {
         return (
             <div className="hero min-h-screen">
                 <span className="loading loading-spinner text-primary"></span>
@@ -583,4 +582,5 @@ export const GameScorePage: React.FC = () => {
             </div>
         );
     }
+    return null;
 };

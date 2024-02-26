@@ -16,7 +16,8 @@ export const GameSearch: React.FC<GameSearchProps> = ({
     const [games, setGames] = useState<RawgGame[] | undefined>(undefined);
     const [isGameAdded, setIsGameAdded] = useState<boolean | null>(null);
     const [searchInput, setSearchInput] = useState<string>("");
-    const [screenSize, setScreenSize] = useState<string | null>(null);
+    const [screenSize, setScreenSize] = useState<string>("desktop");
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const handleGameSearch = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -42,6 +43,7 @@ export const GameSearch: React.FC<GameSearchProps> = ({
         } else if (isGameAdded === false) {
             navigate("/games/add-game");
         }
+        setIsLoading(false);
     }, [selectedGame, homepageSearchInput]);
 
     useEffect(() => {
@@ -51,7 +53,7 @@ export const GameSearch: React.FC<GameSearchProps> = ({
         };
     }, []);
 
-    if (!screenSize) {
+    if (isLoading) {
         return (
             <div className="hero min-h-screen">
                 <span className="loading loading-spinner text-primary"></span>

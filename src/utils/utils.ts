@@ -1,61 +1,45 @@
-export function totalScore(
-  gameplay: number,
-  narrative: number,
-  soundtrack: number,
-  artDirection: number,
-  enjoyment: number
-): number {
-  const finalScore =
-    (gameplay + narrative + soundtrack + artDirection + enjoyment) / 5;
+import { FirebaseGame } from "../types/Types";
 
-  return finalScore;
+export function totalScore(
+    gameplay: number,
+    narrative: number,
+    soundtrack: number,
+    artDirection: number,
+    enjoyment: number
+): number {
+    const finalScore =
+        (gameplay + narrative + soundtrack + artDirection + enjoyment) / 5;
+
+    return finalScore;
 }
 
-// export function getRandomGames<T>(games: T[]): T[] {
-//   const randomGamesArr: T[] = [];
-//   const usedIndexArr: number[] = [];
+export const getRandomGames = (games: FirebaseGame[], count: number) => {
+    const randomGames: FirebaseGame[] = [];
+    count = Math.min(count, games.length);
+    while (randomGames.length < count) {
+        const randomIndex = Math.floor(Math.random() * games.length);
+        const randomGame = games[randomIndex];
 
-//   while (randomGamesArr.length < 12 && usedIndexArr.length < games.length) {
-//     let randomIndex = Math.floor(Math.random() * games.length);
-
-//     if (!usedIndexArr.includes(randomIndex)) {
-//       randomGamesArr.push(games[randomIndex]);
-//       usedIndexArr.push(randomIndex);
-//     }
-//   }
-//   const splitArrays = [];
-//   for (let i = 0; i < randomGamesArr.length; i += 4) {
-//     splitArrays.push(randomGamesArr.slice(i, i + 4));
-//   }
-
-//   return splitArrays;
-// }
-
-export const getRandomGames = (games, count: number) => {
-  const randomGames = [];
-  count = Math.min(count, games.length);
-  while (randomGames.length < count) {
-    const randomIndex = Math.floor(Math.random() * games.length);
-    const randomGame = games[randomIndex];
-
-    if (!randomGames.includes(randomGame)) {
-      randomGames.push(randomGame);
+        if (!randomGames.includes(randomGame)) {
+            randomGames.push(randomGame);
+        }
     }
-  }
-  return randomGames;
+    return randomGames;
 };
 
-export const resizeFunction = (setScreenSize) => {
-  const handleResize = async () => {
-    if (window.innerWidth <= 767) {
-      await setScreenSize("mobile");
-    } else {
-      await setScreenSize("desktop");
-    }
-  };
-  handleResize();
-  window.addEventListener("resize", handleResize);
-  return () => {
-    window.removeEventListener("resize", handleResize);
-  };
+export const resizeFunction = (
+    setScreenSize: React.Dispatch<React.SetStateAction<string>>
+) => {
+    const handleResize = async () => {
+        if (window.innerWidth <= 767) {
+            await setScreenSize("mobile");
+        } else {
+            await setScreenSize("desktop");
+        }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+        window.removeEventListener("resize", handleResize);
+    };
 };

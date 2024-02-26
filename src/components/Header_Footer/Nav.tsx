@@ -6,7 +6,7 @@ import { resizeFunction } from "../../utils/utils";
 
 const Nav = () => {
     const navigate = useNavigate();
-    const [screenSize, setScreenSize] = useState(null);
+    const [screenSize, setScreenSize] = useState<string>("desktop");
     const { user, setUser } = useUserContext();
 
     const handleSignOut = async () => {
@@ -22,9 +22,7 @@ const Nav = () => {
         };
     }, []);
 
-    if (!screenSize) {
-        return null;
-    } else if (screenSize === "desktop") {
+    if (screenSize === "desktop") {
         return (
             <nav>
                 <div className="navbar border-b border-secondary">

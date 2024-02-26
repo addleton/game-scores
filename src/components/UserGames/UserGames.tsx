@@ -84,4 +84,5 @@ export const UserGames: React.FC = () => {
             </div>
         );
     }
+    return null;
 };

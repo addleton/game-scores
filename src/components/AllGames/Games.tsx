@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { getAllFirestoreGames } from "../../utils/api";
 import { Link } from "react-router-dom";
 import { FirebaseGame } from "../../types/Types";
+import { OrderByDirection } from "firebase/firestore";
 
 export const Games: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [games, setGames] = useState<FirebaseGame[]>([]);
-    const [order, setOrder] = useState<string>("desc");
+    const [order, setOrder] = useState<OrderByDirection>("desc");
     const [sort, setSort] = useState<string>("avg_final_score");
     const [screenSize, setScreenSize] = useState<string>("desktop");
 
