@@ -4,7 +4,7 @@ Welcome to myGameScores, a web app created for a unique way to score video games
 
 The scoring uses an 'out of 5 stars' system and allows for half stars. I went with a 5 star system as I personally find it easier to be more critical of a game ('3/5 sounds less critical than 6/10').
 
-You can view a live version here.
+[You can view a live version here.](https://game-scores-d5150.web.app/)
 
 ## Stack
 
@@ -19,8 +19,8 @@ You can view a live version here.
 
 Clone the project and install dependencies
 
-`$ git clone https://github.com/addleton/game-scores.git`
-`$ cd game-scores`
-`$ npm install`
+`$ git clone https://github.com/addleton/game-scores.git`  
+`$ cd game-scores`  
+`$ npm install`  
 
 Create an .env file and add Firebase config and RAWG api keys to the file.
