@@ -61,7 +61,7 @@ export const GameSearch: React.FC<GameSearchProps> = ({
         );
     } else if (screenSize === "desktop") {
         return (
-            <>
+            <div className="min-h-screen">
                 <form
                     onSubmit={handleGameSearch}
                     className="container mx-auto flex items-center justify-center mt-16 mb-8"
@@ -96,11 +96,11 @@ export const GameSearch: React.FC<GameSearchProps> = ({
                         </div>
                     </div>
                 ) : null}
-            </>
+            </div>
         );
     } else {
         return (
-            <>
+            <div className="min-h-screen">
                 <form
                     onSubmit={handleGameSearch}
                     className="container mx-auto flex items-center justify-center mt-16 mb-8"
@@ -135,7 +135,7 @@ export const GameSearch: React.FC<GameSearchProps> = ({
                         </div>
                     </div>
                 ) : null}
-            </>
+            </div>
         );
     }
 };
