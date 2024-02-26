@@ -1,30 +1,26 @@
-# React + TypeScript + Vite
+# myGameScores
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to myGameScores, a web app created for a unique way to score video games. The app has access to thousands of video games which you can score out of 5 on metrics such as gameplay, narrative, music, art and personal enjoyment. The final score for the game is then calculated from these metrics. The scoring system is not flawless, nor is it meant to be, just different.
 
-Currently, two official plugins are available:
+The scoring uses an 'out of 5 stars' system and allows for half stars. I went with a 5 star system as I personally find it easier to be more critical of a game ('3/5 sounds less critical than 6/10').
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+You can view a live version here.
 
-## Expanding the ESLint configuration
+## Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+* React
+* Typescript
+* Firebase (Firestore, Auth)
+* Tailwind CSS with DaisyUI
+* Vite
+* RAWG.io API
 
-- Configure the top-level `parserOptions` property like this:
+## Setup
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+Clone the project and install dependencies
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+`$ git clone https://github.com/addleton/game-scores.git`
+`$ cd game-scores`
+`$ npm install`
+
+Create an .env file and add Firebase config and RAWG api keys to the file.
